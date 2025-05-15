@@ -9,6 +9,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -53,8 +55,17 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(IllegalArgumentException.class)
-	public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+	public ResponseEntity<Map<String, Object>> handleIllegalArgumentException(IllegalArgumentException ex,
+			HttpServletRequest request) {
+
+		Map<String, Object> errorDetails = new HashMap<>();
+		errorDetails.put("timestamp", java.time.LocalDateTime.now());
+		errorDetails.put("status", HttpStatus.BAD_REQUEST.value());
+		errorDetails.put("error", HttpStatus.BAD_REQUEST.getReasonPhrase());
+		errorDetails.put("message", ex.getMessage());
+		errorDetails.put("path", request.getRequestURI());
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
 	}
 	@ExceptionHandler(InvalidDataException.class)
 	public ResponseEntity<String> handleInvalidDataException(InvalidDataException ex) {

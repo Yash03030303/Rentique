@@ -6,22 +6,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.capgemini.equipment_rental.entity.Rentals;
 import com.capgemini.equipment_rental.services.RentalsService;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/rentals")
+@Slf4j
 public class RentalsController {
 
     private final RentalsService rentalsService;
@@ -34,43 +29,59 @@ public class RentalsController {
     // Create a new rental
     @PostMapping
     public ResponseEntity<Rentals> createRental(@Valid @RequestBody Rentals rental, BindingResult result) {
+        log.info("Received request to create rental: {}", rental);
+
         if (result.hasErrors()) {
-            throw new IllegalArgumentException("Invalid rental data: " + result.getAllErrors());
+            log.warn("Validation failed while creating rental: {}", result.getAllErrors());
+            throw new IllegalArgumentException(result.getFieldErrors().toString());
         }
+
         Rentals createdRental = rentalsService.createRental(rental);
+        log.info("Rental created successfully with ID: {}", createdRental.getRentalId());
+
         return ResponseEntity
                 .created(URI.create("/api/rentals/" + createdRental.getRentalId()))
                 .body(createdRental);
     }
 
-    // Get all rentals
     @GetMapping
     public ResponseEntity<List<Rentals>> getAllRentals() {
+        log.info("Received request to fetch all rentals");
         List<Rentals> rentals = rentalsService.getAllRentals();
+        log.debug("Number of rentals fetched: {}", rentals.size());
         return ResponseEntity.ok(rentals);
     }
 
-    // Get a rental by ID
     @GetMapping("/{id}")
     public ResponseEntity<Rentals> getRentalById(@PathVariable Long id) {
+        log.info("Fetching rental with ID: {}", id);
         Rentals rental = rentalsService.getRentalById(id);
+        log.debug("Rental fetched: {}", rental);
         return ResponseEntity.ok(rental);
     }
 
-    // Update rental
     @PutMapping("/{id}")
-    public ResponseEntity<Rentals> updateRental(@PathVariable Long id, @Valid @RequestBody Rentals updatedRental, BindingResult result) {
+    public ResponseEntity<Rentals> updateRental(@PathVariable Long id,
+                                                @Valid @RequestBody Rentals updatedRental,
+                                                BindingResult result) {
+        log.info("Received request to update rental with ID: {}", id);
+
         if (result.hasErrors()) {
-            throw new IllegalArgumentException("Invalid rentals data: " + result.getAllErrors());
+            log.warn("Validation failed while updating rental: {}", result.getAllErrors());
+            throw new IllegalArgumentException(result.getFieldErrors().toString());
         }
+
         Rentals updated = rentalsService.updateRental(id, updatedRental);
+        log.info("Rental with ID {} updated successfully", id);
+
         return ResponseEntity.ok(updated);
     }
 
-    // Delete rental
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRental(@PathVariable Long id) {
+        log.info("Received request to delete rental with ID: {}", id);
         rentalsService.deleteRental(id);
+        log.info("Rental with ID {} deleted successfully", id);
         return ResponseEntity.noContent().build();
     }
 }
