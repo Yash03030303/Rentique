@@ -33,7 +33,6 @@ public class Returns {
     @JoinColumn(name = "rental_id")
     private Rentals rental;
 
-
     @NotNull(message = "Return date is required")
     @PastOrPresent(message = "Return date cannot be in the future")
     @Column(name = "return_date")
@@ -46,8 +45,9 @@ public class Returns {
     @Column(name = "late_fee", precision = 10, scale = 2)
     private BigDecimal lateFee;
 
-  
-    public Returns() {}
+    // Constructors
+    public Returns() {
+    }
 
     public Returns(Long returnId, Rentals rental, LocalDate returnDate, String itemCondition, BigDecimal lateFee) {
         this.returnId = returnId;
@@ -57,7 +57,7 @@ public class Returns {
         this.lateFee = lateFee;
     }
 
-    
+    // Getters and Setters
     public Long getReturnId() {
         return returnId;
     }
@@ -100,10 +100,7 @@ public class Returns {
 
     @Override
     public String toString() {
-        return "Returns [returnId=" + returnId +
-               ", rentalId=" + (rental != null ? rental.getRentalId() : null) +
-               ", returnDate=" + returnDate +
-               ", itemCondition=" + itemCondition +
-               ", lateFee=" + lateFee + "]";
+        return "Returns [returnId=" + returnId + ", rentalId=" + (rental != null ? rental.getRentalId() : null)
+                + ", returnDate=" + returnDate + ", itemCondition=" + itemCondition + ", lateFee=" + lateFee + "]";
     }
 }

@@ -48,13 +48,15 @@ public class Rentals {
     @OneToMany(mappedBy = "rental", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RentalItems> rentalItems;
 
-    public Rentals() {}
+    public Rentals() {
+        super();
+    }
 
     public Rentals(Long rentalId,
-                   @NotNull @PastOrPresent LocalDate rentalDate,
-                   @NotNull @Future LocalDate dueDate,
-                   @NotNull @DecimalMin(value = "0.01", inclusive = false) BigDecimal totalAmount,
-                   @NotNull Users user,
+                   @NotNull(message = "Rental Date is required") @PastOrPresent(message = "Rental Date cannot be in the future") LocalDate rentalDate,
+                   @NotNull(message = "Due Date is required") @Future(message = "Due Date must be in the future") LocalDate dueDate,
+                   @NotNull(message = "Amount is required") @DecimalMin(value = "0.01", inclusive = false, message = "Total amount must be greater than 0") BigDecimal totalAmount,
+                   @NotNull(message = "UserID is required") Users user,
                    List<Returns> returns,
                    List<RentalItems> rentalItems) {
         this.rentalId = rentalId;
