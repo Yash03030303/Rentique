@@ -5,14 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import com.capgemini.equipment_rental.entity.Equipment;
 import com.capgemini.equipment_rental.services.EquipmentService;
@@ -32,7 +26,10 @@ public class EquipmentController {
 
     // Create new equipment
     @PostMapping
-    public ResponseEntity<Equipment> createEquipment(@Valid @RequestBody Equipment equipment) {
+    public ResponseEntity<Equipment> createEquipment(@Valid @RequestBody Equipment equipment, BindingResult result) {
+        if (result.hasErrors()) {
+            throw new IllegalArgumentException("Invalid equipment data: " + result.getAllErrors());
+        }
         Equipment createdEquipment = equipmentService.createEquipment(equipment);
         return ResponseEntity
                 .created(URI.create("/api/equipment/" + createdEquipment.getEquipmentId()))
@@ -55,7 +52,13 @@ public class EquipmentController {
 
     // Update equipment
     @PutMapping("/{id}")
-    public ResponseEntity<Equipment> updateEquipment(@PathVariable Long id, @Valid @RequestBody Equipment updatedEquipment) {
+    public ResponseEntity<Equipment> updateEquipment(
+            @PathVariable Long id,
+            @Valid @RequestBody Equipment updatedEquipment,
+            BindingResult result) {
+        if (result.hasErrors()) {
+            throw new IllegalArgumentException("Invalid equipment data: " + result.getAllErrors());
+        }
         Equipment updated = equipmentService.updateEquipment(id, updatedEquipment);
         return ResponseEntity.ok(updated);
     }

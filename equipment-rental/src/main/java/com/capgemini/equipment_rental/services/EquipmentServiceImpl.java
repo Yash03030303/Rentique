@@ -12,46 +12,46 @@ import com.capgemini.equipment_rental.repositories.EquipmentRepository;
 @Service
 public class EquipmentServiceImpl implements EquipmentService {
 
-	private EquipmentRepository equipmentRepository;
+    private final EquipmentRepository equipmentRepository;
 
-	@Autowired
-	public EquipmentServiceImpl(EquipmentRepository equipmentRepository) {
-		super();
-		this.equipmentRepository = equipmentRepository;
-	}
+    @Autowired
+    public EquipmentServiceImpl(EquipmentRepository equipmentRepository) {
+        this.equipmentRepository = equipmentRepository;
+    }
 
-	@Override
-	public Equipment createEquipment(Equipment equipment) {
-		return equipmentRepository.save(equipment);
-	}
+    @Override
+    public Equipment createEquipment(Equipment equipment) {
+        return equipmentRepository.save(equipment);
+    }
 
-	@Override
-	public Equipment getEquipmentById(Long equipmentId) {
-		return equipmentRepository.findById(equipmentId).orElseThrow(() -> new EquipmentNotFoundException("Equipment with ID " + equipmentId + " not found."));
-	}
+    @Override
+    public Equipment getEquipmentById(Long equipmentId) {
+        return equipmentRepository.findById(equipmentId)
+                .orElseThrow(() -> new EquipmentNotFoundException("Equipment with ID " + equipmentId + " not found."));
+    }
 
-	@Override
-	public List<Equipment> getAllEquipment() {
-		return equipmentRepository.findAll();
-	}
+    @Override
+    public List<Equipment> getAllEquipment() {
+        return equipmentRepository.findAll();
+    }
 
-	@Override
-	public Equipment updateEquipment(Long equipmentId, Equipment updatedEquipment) {
-		Equipment existingEquipment = getEquipmentById(equipmentId);
+    @Override
+    public Equipment updateEquipment(Long equipmentId, Equipment updatedEquipment) {
+        Equipment existingEquipment = getEquipmentById(equipmentId);
 
-		existingEquipment.setName(updatedEquipment.getName());
-		existingEquipment.setRentalPricePerDay(updatedEquipment.getRentalPricePerDay());
-		existingEquipment.setStock(updatedEquipment.getStock());
-		existingEquipment.setCategories(updatedEquipment.getCategories());
+        existingEquipment.setName(updatedEquipment.getName());
+        existingEquipment.setRentalPricePerDay(updatedEquipment.getRentalPricePerDay());
+        existingEquipment.setStock(updatedEquipment.getStock());
+        existingEquipment.setCategories(updatedEquipment.getCategories());
 
-		return equipmentRepository.save(existingEquipment);
-	}
+        return equipmentRepository.save(existingEquipment);
+    }
 
-	@Override
-	public void deleteEquipment(Long equipmentId) {
-		if (!equipmentRepository.existsById(equipmentId)) {
-			throw new EquipmentNotFoundException("Equipment with ID " + equipmentId + " not found.");
-		}
-		equipmentRepository.deleteById(equipmentId);
-	}
+    @Override
+    public void deleteEquipment(Long equipmentId) {
+        if (!equipmentRepository.existsById(equipmentId)) {
+            throw new EquipmentNotFoundException("Equipment with ID " + equipmentId + " not found.");
+        }
+        equipmentRepository.deleteById(equipmentId);
+    }
 }
