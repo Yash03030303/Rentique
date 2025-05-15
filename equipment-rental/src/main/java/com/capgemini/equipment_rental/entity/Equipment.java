@@ -2,6 +2,8 @@ package com.capgemini.equipment_rental.entity;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,6 +35,7 @@ public class Equipment {
 	@ManyToOne
 	@JoinColumn(name = "categoryId", nullable = false)
 	@NotNull(message = "Category is required")
+	@JsonBackReference
 	private Categories category; // Changed to a reference to Categories entity
 
 	@NotNull(message = "Rental price is required")

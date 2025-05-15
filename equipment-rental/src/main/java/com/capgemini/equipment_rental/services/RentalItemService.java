@@ -1,4 +1,4 @@
-//package com.capgemini.equipment_rental.services;
+package com.capgemini.equipment_rental.services;
 //
 //import com.capgemini.equipment_rental.entity.RentalItems;
 //
@@ -15,3 +15,20 @@
 //    List<RentalItems> getRentalItemsByDateRange(LocalDate start, LocalDate end);
 //
 //}
+
+
+//package com.capgemini.equipment_rental.service;
+
+import java.util.List;
+
+import com.capgemini.equipment_rental.entity.RentalItems;
+
+public interface RentalItemService {
+	
+    RentalItems addRentalItem(RentalItems item);
+    List<RentalItems> getAllRentalItems();
+    RentalItems getRentalItemById(Long id);
+    List<RentalItems> getRentalItemsByRentalId(Long rentalId);
+    RentalItems updateRentalItem(Long id, RentalItems updatedItem);
+    void deleteRentalItem(Long id);
+}
