@@ -72,4 +72,16 @@ public class UsersServiceImpl implements UsersService {
 
 		usersRepository.deleteById(userId);
 	}
+
+	@Override
+	public Users findByEmail(String email) {
+		return usersRepository.findByEmail( email)
+				.orElseThrow(()->new UserNotFoundException(" Email not Found !"));
+	}
+
+
+	@Override
+	public boolean existsByEmail(String email) {
+		return usersRepository.existsByEmail(email);
+	}
 }
