@@ -1,5 +1,6 @@
 package com.capgemini.equipment_rental.exceptions;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,8 +19,13 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(RentalNotFoundException.class)
-	public ResponseEntity<String> handleRentalNotFoundException(RentalNotFoundException ex) {
-		return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+	public ResponseEntity<Object> handleRentalNotFoundException(RentalNotFoundException ex) {
+		Map<String, Object> errorDetails = new HashMap<>();
+		errorDetails.put("timestamp", LocalDateTime.now());
+		errorDetails.put("message", ex.getMessage());
+		errorDetails.put("status", HttpStatus.NOT_FOUND.value());
+		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+
 	}
 
 	@ExceptionHandler(RentalItemNotFoundException.class)
@@ -56,18 +62,19 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
 	}
+
 	@ExceptionHandler(InvalidDataException.class)
 	public ResponseEntity<String> handleInvalidDataException(InvalidDataException ex) {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
 	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getFieldErrors().forEach(error ->
-                errors.put(error.getField(), error.getDefaultMessage()));
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
-    }
+	public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+		Map<String, String> errors = new HashMap<>();
+		ex.getBindingResult().getFieldErrors()
+				.forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+	}
 
 	// Fallback exception handler
 	@ExceptionHandler(Exception.class)
