@@ -3,13 +3,20 @@ package com.capgemini.equipment_rental.entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 
 @Entity
 @Table(name = "Returns")
@@ -17,31 +24,34 @@ public class Returns {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "returnId")
+	@Column(name = "return_id")
 	private Long returnId;
 
-	@NotNull(message = "Rental ID is required")
-	@Column(name = "rentalId", nullable = false)
-	private Long rentalId;
+	@NotNull(message = "Rental reference is required")
+	@JsonBackReference(value = "rental-returns")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "rental_id")
+	private Rentals rental;
 
-	@NotNull(message = "Return Date is required")
-	@Column(name = "returnDate", nullable = false)
+	@NotNull(message = "Return date is required")
+	@PastOrPresent(message = "Return date cannot be in the future")
+	@Column(name = "return_date")
 	private LocalDate returnDate;
 
-	@Column(name = "itemCondition", length = 255)
+	@Column(name = "item_condition", length = 255)
 	private String itemCondition;
 
-	@Column(name = "lateFee", precision = 10, scale = 2)
+	@DecimalMin(value = "0.0", message = "Late fee cannot be negative")
+	@Column(name = "late_fee", precision = 10, scale = 2)
 	private BigDecimal lateFee;
 
-	// Default constructor
+	// Constructors
 	public Returns() {
 	}
 
-	// Constructor with parameters
-	public Returns(Long returnId, Long rentalId, LocalDate returnDate, String itemCondition, BigDecimal lateFee) {
+	public Returns(Long returnId, Rentals rental, LocalDate returnDate, String itemCondition, BigDecimal lateFee) {
 		this.returnId = returnId;
-		this.rentalId = rentalId;
+		this.rental = rental;
 		this.returnDate = returnDate;
 		this.itemCondition = itemCondition;
 		this.lateFee = lateFee;
@@ -56,12 +66,12 @@ public class Returns {
 		this.returnId = returnId;
 	}
 
-	public Long getRentalId() {
-		return rentalId;
+	public Rentals getRental() {
+		return rental;
 	}
 
-	public void setRentalId(Long rentalId) {
-		this.rentalId = rentalId;
+	public void setRental(Rentals rental) {
+		this.rental = rental;
 	}
 
 	public LocalDate getReturnDate() {
@@ -90,7 +100,7 @@ public class Returns {
 
 	@Override
 	public String toString() {
-		return "Returns [returnId=" + returnId + ", rentalId=" + rentalId + ", returnDate=" + returnDate
-				+ ", itemCondition=" + itemCondition + ", lateFee=" + lateFee + "]";
+		return "Returns [returnId=" + returnId + ", rentalId=" + (rental != null ? rental.getRentalId() : null)
+				+ ", returnDate=" + returnDate + ", itemCondition=" + itemCondition + ", lateFee=" + lateFee + "]";
 	}
 }
