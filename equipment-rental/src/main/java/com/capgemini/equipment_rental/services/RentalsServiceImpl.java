@@ -5,29 +5,19 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.capgemini.equipment_rental.entity.RentalItems;
 import com.capgemini.equipment_rental.entity.Rentals;
+import com.capgemini.equipment_rental.exceptions.InvalidDataException;
 import com.capgemini.equipment_rental.exceptions.RentalNotFoundException;
 import com.capgemini.equipment_rental.repositories.RentalsRepository;
 
 @Service
 public class RentalsServiceImpl implements RentalsService {
-
-	private RentalsRepository rentalsRepository;
+	private final RentalsRepository rentalsRepository;
 
 	@Autowired
 	public RentalsServiceImpl(RentalsRepository rentalsRepository) {
 		this.rentalsRepository = rentalsRepository;
-	}
-
-	@Override
-	public Rentals createRental(Rentals rental) {
-		return rentalsRepository.save(rental);
-	}
-
-	@Override
-	public Rentals getRentalById(Long rentalId) {
-		return rentalsRepository.findById(rentalId)
-				.orElseThrow(() -> new RentalNotFoundException("Rental with ID " + rentalId + " not found."));
 	}
 
 	@Override
@@ -36,22 +26,48 @@ public class RentalsServiceImpl implements RentalsService {
 	}
 
 	@Override
-	public Rentals updateRental(Long rentalId, Rentals updatedRental) {
-		Rentals existingRental = getRentalById(rentalId);
-
-		existingRental.setRentalDate(updatedRental.getRentalDate());
-		existingRental.setDueDate(updatedRental.getDueDate());
-		existingRental.setTotalAmount(updatedRental.getTotalAmount());
-		existingRental.setUser(updatedRental.getUser());
-		existingRental.setRentalItems(updatedRental.getRentalItems());
-
-		return rentalsRepository.save(existingRental);
+	public Rentals getRentalsById(Long rentalId) {
+		return rentalsRepository.findById(rentalId)
+				.orElseThrow(() -> new RentalNotFoundException("Rentals not found with ID: " + rentalId));
 	}
 
 	@Override
-	public void deleteRental(Long rentalId) {
+	public Rentals createRentals(Rentals rentals) {
+		if (rentals.getRentalDate().isAfter(rentals.getDueDate())) {
+			throw new InvalidDataException("RentalDate should always less than DueDate.");
+		}
+		return rentalsRepository.save(rentals);
+	}
+
+	@Override
+	public Rentals updateRentals(Long rentalId, Rentals rentals) {
+		if (rentals.getRentalDate().isAfter(rentals.getDueDate())) {
+			throw new InvalidDataException("RentalDate must be before DueDate.");
+		}
+
+		Rentals existing = rentalsRepository.findById(rentalId)
+				.orElseThrow(() -> new RentalNotFoundException("Rental not found with ID: " + rentalId));
+
+		existing.setRentalDate(rentals.getRentalDate());
+		existing.setDueDate(rentals.getDueDate());
+		existing.setTotalAmount(rentals.getTotalAmount());
+		existing.setUser(rentals.getUser());
+		existing.setReturns(rentals.getReturns());
+
+		if (rentals.getRentalItems() != null) {
+			existing.getRentalItems().clear();
+			existing.getRentalItems().addAll(rentals.getRentalItems());
+			for (RentalItems item : existing.getRentalItems()) {
+				item.setRental(existing);
+			}
+		}
+		return rentalsRepository.save(existing);
+	}
+
+	@Override
+	public void deleteRentals(Long rentalId) {
 		if (!rentalsRepository.existsById(rentalId)) {
-			throw new RentalNotFoundException("Rental with ID " + rentalId + " not found.");
+			throw new RentalNotFoundException("Cannot delete. Rentals not found with ID: " + rentalId);
 		}
 		rentalsRepository.deleteById(rentalId);
 	}
