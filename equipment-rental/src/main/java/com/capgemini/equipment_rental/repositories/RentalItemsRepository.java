@@ -9,7 +9,7 @@ import com.capgemini.equipment_rental.entity.RentalItems;
 
 @Repository
 public interface RentalItemsRepository extends JpaRepository<RentalItems, Long> {
-    List<RentalItems> findByRentalId(Long rentalId);
-    List<RentalItems> findByEquipmentId(Long equipmentId);
-}
 
+//	List<RentalItems> findByRentalId(Long rentalId);
+//    List<RentalItems> findByEquipmentId(Long equipmentId);
+}

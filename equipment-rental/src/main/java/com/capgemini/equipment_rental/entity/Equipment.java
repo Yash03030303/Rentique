@@ -1,9 +1,12 @@
 package com.capgemini.equipment_rental.entity;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
@@ -22,88 +26,101 @@ import jakarta.validation.constraints.Size;
 @Table(name = "Equipment")
 public class Equipment {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "equipmentId")
-	private Long equipmentId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "equipment_id")
+    private Long equipmentId;
 
-	@NotBlank(message = "Equipment name is required")
-	@Size(max = 100, message = "Name can have up to 100 characters")
-	@Column(name = "name", nullable = false, length = 100)
-	private String name;
+    @NotBlank(message = "Equipment name is required")
+    @Size(max = 100, message = "Name can have up to 100 characters")
+    @Column(name = "name", length = 100)
+    private String name;
 
-	@ManyToOne
-	@JoinColumn(name = "categoryId", nullable = false)
-	@NotNull(message = "Category is required")
-	@JsonBackReference
-	private Categories category; // Changed to a reference to Categories entity
+    @NotNull(message = "Rental price is required")
+    @DecimalMin(value = "0.0", inclusive = false, message = "Rental price must be greater than 0")
+    @Column(name = "rental_price_per_day", precision = 10, scale = 2)
+    private BigDecimal rentalPricePerDay;
 
-	@NotNull(message = "Rental price is required")
-	@DecimalMin(value = "0.0", inclusive = false, message = "Rental price must be greater than 0")
-	@Column(name = "rentalPricePerDay", nullable = false, precision = 10, scale = 2)
-	private BigDecimal rentalPricePerDay;
+    @NotNull(message = "Stock is required")
+    @Min(value = 0, message = "Stock cannot be negative")
+    @Column(name = "stock")
+    private Long stock;
 
-	@NotNull(message = "Stock is required")
-	@Min(value = 0, message = "Stock cannot be negative")
-	@Column(name = "stock", nullable = false, columnDefinition = "INT DEFAULT 0")
-	private Long stock;
+    @NotNull(message = "Category is required")
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    @JsonBackReference(value = "category-equipment")
+    private Categories categories;
 
-	// Constructors
-	public Equipment() {
-	}
+    // Optional: OneToMany for reverse relationship
+    @OneToMany(mappedBy = "equipment", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "equipment-rentalItems")
+    private List<RentalItems> rentalItems;
 
-	public Equipment(Long equipmentId, String name, Categories category, BigDecimal rentalPricePerDay, Long stock) {
-		this.equipmentId = equipmentId;
-		this.name = name;
-		this.category = category;
-		this.rentalPricePerDay = rentalPricePerDay;
-		this.stock = stock;
-	}
+    public Equipment() {}
 
-	// Getters and Setters
-	public Long getEquipmentId() {
-		return equipmentId;
-	}
+    public Equipment(Long equipmentId, String name, BigDecimal rentalPricePerDay, Long stock, Categories categories) {
+        this.equipmentId = equipmentId;
+        this.name = name;
+        this.rentalPricePerDay = rentalPricePerDay;
+        this.stock = stock;
+        this.categories = categories;
+    }
 
-	public void setEquipmentId(Long equipmentId) {
-		this.equipmentId = equipmentId;
-	}
+    public Long getEquipmentId() {
+        return equipmentId;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setEquipmentId(Long equipmentId) {
+        this.equipmentId = equipmentId;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Categories getCategory() {
-		return category;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setCategory(Categories category) {
-		this.category = category;
-	}
+    public BigDecimal getRentalPricePerDay() {
+        return rentalPricePerDay;
+    }
 
-	public BigDecimal getRentalPricePerDay() {
-		return rentalPricePerDay;
-	}
+    public void setRentalPricePerDay(BigDecimal rentalPricePerDay) {
+        this.rentalPricePerDay = rentalPricePerDay;
+    }
 
-	public void setRentalPricePerDay(BigDecimal rentalPricePerDay) {
-		this.rentalPricePerDay = rentalPricePerDay;
-	}
+    public Long getStock() {
+        return stock;
+    }
 
-	public Long getStock() {
-		return stock;
-	}
+    public void setStock(Long stock) {
+        this.stock = stock;
+    }
 
-	public void setStock(Long stock) {
-		this.stock = stock;
-	}
+    public Categories getCategories() {
+        return categories;
+    }
 
-	@Override
-	public String toString() {
-		return "Equipment{" + "equipmentId=" + equipmentId + ", name='" + name + '\'' + ", category=" + category
-				+ ", rentalPricePerDay=" + rentalPricePerDay + ", stock=" + stock + '}';
-	}
+    public void setCategories(Categories categories) {
+        this.categories = categories;
+    }
+
+    public List<RentalItems> getRentalItems() {
+        return rentalItems;
+    }
+
+    public void setRentalItems(List<RentalItems> rentalItems) {
+        this.rentalItems = rentalItems;
+    }
+
+    @Override
+    public String toString() {
+        return "Equipment [equipmentId=" + equipmentId +
+               ", name=" + name +
+               ", rentalPricePerDay=" + rentalPricePerDay +
+               ", stock=" + stock +
+               ", category=" + (categories != null ? categories.getCategoryId() : null) + "]";
+    }
 }

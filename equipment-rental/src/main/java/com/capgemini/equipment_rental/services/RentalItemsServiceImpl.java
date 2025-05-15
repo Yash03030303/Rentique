@@ -1,55 +1,58 @@
 package com.capgemini.equipment_rental.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.capgemini.equipment_rental.entity.RentalItems;
+import com.capgemini.equipment_rental.exceptions.RentalItemNotFoundException;
 import com.capgemini.equipment_rental.repositories.RentalItemsRepository;
 
-
 @Service
-public class RentalItemsServiceImpl implements RentalItemService {
+public class RentalItemsServiceImpl implements RentalItemsService {
 
-    @Autowired
-    private RentalItemsRepository rentalItemsRepository;
-    
+	private RentalItemsRepository rentalItemsRepository;
 
-    @Override
-    public RentalItems addRentalItem(RentalItems item) {
-        return rentalItemsRepository.save(item);
-    }
+	@Autowired
+	public RentalItemsServiceImpl(RentalItemsRepository rentalItemsRepository) {
+		super();
+		this.rentalItemsRepository = rentalItemsRepository;
+	}
 
-    @Override
-    public List<RentalItems> getAllRentalItems() {
-        return rentalItemsRepository.findAll();
-    }
+	@Override
+	public RentalItems createRentalItem(RentalItems rentalItem) {
+		return rentalItemsRepository.save(rentalItem);
+	}
 
-    @Override
-    public RentalItems getRentalItemById(Long id) {
-        return rentalItemsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Rental item not found with ID: " + id));
-    }
+	@Override
+	public RentalItems getRentalItemById(Long rentalItemId) {
+		return rentalItemsRepository.findById(rentalItemId).orElseThrow(
+				() -> new RentalItemNotFoundException("Rental item with ID " + rentalItemId + " not found."));
+	}
 
-    @Override
-    public List<RentalItems> getRentalItemsByRentalId(Long rentalId) {
-        return rentalItemsRepository.findByRentalId(rentalId);
-    }
+	@Override
+	public List<RentalItems> getAllRentalItems() {
+		return rentalItemsRepository.findAll();
+	}
 
-    @Override
-    public RentalItems updateRentalItem(Long id, RentalItems updatedItem) {
-        RentalItems existing = getRentalItemById(id);
-        existing.setEquipmentId(updatedItem.getEquipmentId());
-        existing.setQuantity(updatedItem.getQuantity());
-        existing.setDaysRented(updatedItem.getDaysRented());
-        return rentalItemsRepository.save(existing);
-    }
+	@Override
+	public RentalItems updateRentalItem(Long rentalItemId, RentalItems updatedRentalItem) {
+		RentalItems existingRentalItem = getRentalItemById(rentalItemId);
 
-    @Override
-    public void deleteRentalItem(Long id) {
-        rentalItemsRepository.deleteById(id);
-    }
+		existingRentalItem.setQuantity(updatedRentalItem.getQuantity());
+		existingRentalItem.setDaysRented(updatedRentalItem.getDaysRented());
+		existingRentalItem.setRental(updatedRentalItem.getRental());
+		existingRentalItem.setEquipment(updatedRentalItem.getEquipment());
+
+		return rentalItemsRepository.save(existingRentalItem);
+	}
+
+	@Override
+	public void deleteRentalItem(Long rentalItemId) {
+		if (!rentalItemsRepository.existsById(rentalItemId)) {
+			throw new RentalItemNotFoundException("Rental item with ID " + rentalItemId + " not found.");
+		}
+		rentalItemsRepository.deleteById(rentalItemId);
+	}
 }
-

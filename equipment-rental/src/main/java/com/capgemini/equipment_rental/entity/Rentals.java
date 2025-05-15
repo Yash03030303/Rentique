@@ -16,52 +16,60 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 
 @Entity
 @Table(name = "Rentals")
 public class Rentals {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "rentalId")
+	@Column(name = "rental_id")
 	private Long rentalId;
 
-	@NotNull(message = "UserID is required")
-	@Column(name = "userId", nullable = false)
-	private Long userId;
-
 	@NotNull(message = "Rental Date is required")
-	@Column(name = "rentalDate", nullable = false)
+	@PastOrPresent(message = "Rental Date cannot be in the future")
+	@Column(name = "rental_date")
 	private LocalDate rentalDate;
 
 	@NotNull(message = "Due Date is required")
-	@Column(name = "dueDate", nullable = false)
+	@Future(message = "Due Date must be in the future")
+	@Column(name = "due_date")
 	private LocalDate dueDate;
 
 	@NotNull(message = "Amount is required")
-	@Column(name = "totalAmount", precision = 10, scale = 2)
+	@DecimalMin(value = "0.01", inclusive = false, message = "Total amount must be greater than 0")
+	@Column(name = "total_amount", precision = 10, scale = 2)
 	private BigDecimal totalAmount;
 
+	@NotNull(message = "UserID is required")
 	@ManyToOne
-	@JoinColumn(name = "userId", referencedColumnName = "userId", insertable = false, updatable = false)
+	@JoinColumn(name = "user_id")
 	private Users user;
 
-	@JsonManagedReference
-	@OneToMany(mappedBy = "rentalId", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonManagedReference(value = "rental-returns")
+	@OneToMany(mappedBy = "rental", cascade = CascadeType.ALL)
+	private List<Returns> returns;
+
+	@JsonManagedReference(value = "rental-rentalItems")
+	@OneToMany(mappedBy = "rental", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<RentalItems> rentalItems;
 
-	public Rentals(Long rentalId, @NotNull(message = "UserID is required") Long userId,
-			@NotNull(message = "Rental Date is required") LocalDate rentalDate,
-			@NotNull(message = "Due Date is required") LocalDate dueDate,
-			@NotNull(message = "Amount is required") BigDecimal totalAmount, Users user,
-			List<RentalItems> rentalItems) {
+	public Rentals(Long rentalId,
+			@NotNull(message = "Rental Date is required") @PastOrPresent(message = "Rental Date cannot be in the future") LocalDate rentalDate,
+			@NotNull(message = "Due Date is required") @Future(message = "Due Date must be in the future") LocalDate dueDate,
+			@NotNull(message = "Amount is required") @DecimalMin(value = "0.01", inclusive = false, message = "Total amount must be greater than 0") BigDecimal totalAmount,
+			@NotNull(message = "UserID is required") Users user, List<Returns> returns, List<RentalItems> rentalItems) {
 		super();
 		this.rentalId = rentalId;
-		this.userId = userId;
 		this.rentalDate = rentalDate;
 		this.dueDate = dueDate;
 		this.totalAmount = totalAmount;
 		this.user = user;
+		this.returns = returns;
 		this.rentalItems = rentalItems;
 	}
 
@@ -75,14 +83,6 @@ public class Rentals {
 
 	public void setRentalId(Long rentalId) {
 		this.rentalId = rentalId;
-	}
-
-	public Long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Long userId) {
-		this.userId = userId;
 	}
 
 	public LocalDate getRentalDate() {
@@ -117,6 +117,14 @@ public class Rentals {
 		this.user = user;
 	}
 
+	public List<Returns> getReturns() {
+		return returns;
+	}
+
+	public void setReturns(List<Returns> returns) {
+		this.returns = returns;
+	}
+
 	public List<RentalItems> getRentalItems() {
 		return rentalItems;
 	}
@@ -127,8 +135,9 @@ public class Rentals {
 
 	@Override
 	public String toString() {
-		return "Rentals [rentalId=" + rentalId + ", userId=" + userId + ", rentalDate=" + rentalDate + ", dueDate="
-				+ dueDate + ", totalAmount=" + totalAmount + ", user=" + user + ", rentalItems=" + rentalItems + "]";
+		return "Rentals [rentalId=" + rentalId + ", rentalDate=" + rentalDate + ", dueDate=" + dueDate
+				+ ", totalAmount=" + totalAmount + ", user=" + user + ", returns=" + returns + ", rentalItems="
+				+ rentalItems + "]";
 	}
-	
+
 }
