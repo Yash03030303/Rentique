@@ -21,19 +21,18 @@ public class Categories {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "categoryId")
+	@Column(name = "category_id")
 	private Long categoryId;
 
 	@NotBlank(message = "Category name is required")
 	@Size(min = 2, max = 100, message = "Category name must have at least 2 characters")
-	@Column(name = "name", nullable = false)
+	@Column(name = "name")
 	private String name;
 
-	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonManagedReference
+	@JsonManagedReference(value = "category-equipment")
+	@OneToMany(mappedBy = "categories", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Equipment> equipmentList;
 
-	// Constructors
 	public Categories() {
 	}
 
