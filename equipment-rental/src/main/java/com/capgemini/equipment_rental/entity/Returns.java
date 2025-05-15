@@ -48,7 +48,6 @@ public class Returns {
     // Constructors
     public Returns() {}
 
-
     public Returns(Long returnId, Rentals rental, LocalDate returnDate, String itemCondition, BigDecimal lateFee) {
         this.returnId = returnId;
         this.rental = rental;

@@ -5,15 +5,15 @@ import java.util.List;
 import com.capgemini.equipment_rental.entity.Rentals;
 
 public interface RentalsService {
+
+	Rentals createRental(Rentals rental);
+
+	Rentals getRentalById(Long rentalId);
+
 	List<Rentals> getAllRentals();
 
-	Rentals getRentalsById(Long rentalId);
+	Rentals updateRental(Long rentalId, Rentals rental);
 
-	Rentals createRentals(Rentals rentals);
+	void deleteRental(Long rentalId);
 
-	Rentals updateRentals(Long rentalId, Rentals rentals);
-
-	Rentals patchRentals(Long rentalId, Rentals rentals);
-
-	void deleteRentals(Long rentalId);
 }

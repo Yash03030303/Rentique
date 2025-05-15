@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,29 +32,31 @@ public class ReturnsController {
 		this.rentalsService = rentalsService;
 	}
 
-
-	
+	// Get all returns
 	@GetMapping
 	public ResponseEntity<List<Returns>> getAllReturns() {
 		List<Returns> returnsList = returnsService.getAllReturns();
 		return ResponseEntity.ok(returnsList);
 	}
 
-	
+	// Get return by ID
 	@GetMapping("/{id}")
 	public ResponseEntity<Returns> getReturnById(@PathVariable Long id) {
 		Returns returns = returnsService.getReturnById(id);
 		return ResponseEntity.ok(returns);
 	}
 
-	
+	// Update return
 	@PutMapping("/{id}")
-	public ResponseEntity<Returns> updateReturn(@PathVariable Long id, @Valid @RequestBody Returns updatedReturn) {
+	public ResponseEntity<Returns> updateReturn(@PathVariable Long id, @Valid @RequestBody Returns updatedReturn, BindingResult result) {
+		if (result.hasErrors()) {
+			throw new IllegalArgumentException("Invalid returns data: " + result.getAllErrors());
+		}
 		Returns updated = returnsService.updateReturn(id, updatedReturn);
 		return ResponseEntity.ok(updated);
 	}
 
-	
+	// Delete return
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteReturn(@PathVariable Long id) {
 		returnsService.deleteReturn(id);
