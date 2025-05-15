@@ -124,4 +124,3 @@ public class Equipment {
                ", category=" + (categories != null ? categories.getCategoryId() : null) + "]";
     }
 }
-

@@ -125,5 +125,4 @@ public class Users {
 		return "Users [userId=" + userId + ", name=" + name + ", email=" + email + ", password=" + password + ", phone="
 				+ phone + ", userType=" + userType + "]";
 	}
-
 }
