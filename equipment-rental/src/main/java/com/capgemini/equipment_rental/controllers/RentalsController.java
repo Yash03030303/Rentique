@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -19,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.capgemini.equipment_rental.entity.Rentals;
 import com.capgemini.equipment_rental.services.RentalsService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -44,21 +45,15 @@ public class RentalsController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Rentals> createRentals(@RequestBody Rentals rentals) {
+	public ResponseEntity<Rentals> createRentals(@Valid @RequestBody Rentals rentals) {
 		Rentals saved = rentalsService.createRentals(rentals);
 		return ResponseEntity.status(HttpStatus.CREATED).location(URI.create("/api/rentals/" + saved.getRentalId()))
 				.body(saved);
 	}
 
 	@PutMapping("/{rentalId}")
-	public ResponseEntity<Rentals> updateRentals(@PathVariable Long rentalId, @RequestBody Rentals newRental) {
+	public ResponseEntity<Rentals> updateRentals(@PathVariable Long rentalId, @Valid  @RequestBody Rentals newRental) {
 		Rentals updated = rentalsService.updateRentals(rentalId, newRental);
-		return ResponseEntity.status(HttpStatus.OK).body(updated);
-	}
-
-	@PatchMapping("/{rentalId}")
-	public ResponseEntity<Rentals> patchRentals(@PathVariable Long rentalId, @RequestBody Rentals patch) {
-		Rentals updated = rentalsService.patchRentals(rentalId, patch);
 		return ResponseEntity.status(HttpStatus.OK).body(updated);
 	}
 

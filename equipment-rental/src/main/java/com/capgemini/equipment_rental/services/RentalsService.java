@@ -13,7 +13,5 @@ public interface RentalsService {
 
 	Rentals updateRentals(Long rentalId, Rentals rentals);
 
-	Rentals patchRentals(Long rentalId, Rentals rentals);
-
 	void deleteRentals(Long rentalId);
 }
