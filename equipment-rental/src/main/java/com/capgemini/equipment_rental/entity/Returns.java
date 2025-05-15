@@ -46,8 +46,8 @@ public class Returns {
     private BigDecimal lateFee;
 
     // Constructors
-    public Returns() {
-    }
+    public Returns() {}
+
 
     public Returns(Long returnId, Rentals rental, LocalDate returnDate, String itemCondition, BigDecimal lateFee) {
         this.returnId = returnId;
@@ -100,7 +100,10 @@ public class Returns {
 
     @Override
     public String toString() {
-        return "Returns [returnId=" + returnId + ", rentalId=" + (rental != null ? rental.getRentalId() : null)
-                + ", returnDate=" + returnDate + ", itemCondition=" + itemCondition + ", lateFee=" + lateFee + "]";
+        return "Returns [returnId=" + returnId +
+               ", rentalId=" + (rental != null ? rental.getRentalId() : null) +
+               ", returnDate=" + returnDate +
+               ", itemCondition=" + itemCondition +
+               ", lateFee=" + lateFee + "]";
     }
 }

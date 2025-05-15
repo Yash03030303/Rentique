@@ -1,15 +1,15 @@
 package com.capgemini.equipment_rental.entity;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Table(name = "Rentals")
@@ -59,6 +59,7 @@ public class Rentals {
                    @NotNull(message = "UserID is required") Users user,
                    List<Returns> returns,
                    List<RentalItems> rentalItems) {
+        super();
         this.rentalId = rentalId;
         this.rentalDate = rentalDate;
         this.dueDate = dueDate;
