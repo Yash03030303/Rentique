@@ -32,7 +32,6 @@ public class ReturnsController {
 		this.rentalsService = rentalsService;
 	}
 
-
 	// Get all returns
 	@GetMapping
 	public ResponseEntity<List<Returns>> getAllReturns() {
@@ -49,7 +48,7 @@ public class ReturnsController {
 
 	// Update return
 	@PutMapping("/{id}")
-	public ResponseEntity<Returns> updateReturn(@PathVariable Long id, @Valid @RequestBody Returns updatedReturn,BindingResult result) {
+	public ResponseEntity<Returns> updateReturn(@PathVariable Long id, @Valid @RequestBody Returns updatedReturn, BindingResult result) {
 		if (result.hasErrors()) {
 			throw new IllegalArgumentException("Invalid returns data: " + result.getAllErrors());
 		}

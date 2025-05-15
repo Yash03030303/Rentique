@@ -16,7 +16,6 @@ public class RentalsServiceImpl implements RentalsService {
 
 	@Autowired
 	public RentalsServiceImpl(RentalsRepository rentalsRepository) {
-		super();
 		this.rentalsRepository = rentalsRepository;
 	}
 
@@ -56,5 +55,4 @@ public class RentalsServiceImpl implements RentalsService {
 		}
 		rentalsRepository.deleteById(rentalId);
 	}
-
 }

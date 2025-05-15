@@ -139,5 +139,4 @@ public class Rentals {
 				+ ", totalAmount=" + totalAmount + ", user=" + user + ", returns=" + returns + ", rentalItems="
 				+ rentalItems + "]";
 	}
-
 }

@@ -8,5 +8,4 @@ import com.capgemini.equipment_rental.entity.RentalItems;
 @Repository
 public interface RentalItemsRepository extends JpaRepository<RentalItems, Long> {
 
-	
 }

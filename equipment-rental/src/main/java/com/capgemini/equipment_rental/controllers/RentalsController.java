@@ -33,10 +33,10 @@ public class RentalsController {
 
     // Create a new rental
     @PostMapping
-    public ResponseEntity<Rentals> createRental(@Valid @RequestBody Rentals rental,BindingResult result) {
-    	if (result.hasErrors()) {
-			throw new IllegalArgumentException("Invalid rental data: " + result.getAllErrors());
-		}
+    public ResponseEntity<Rentals> createRental(@Valid @RequestBody Rentals rental, BindingResult result) {
+        if (result.hasErrors()) {
+            throw new IllegalArgumentException("Invalid rental data: " + result.getAllErrors());
+        }
         Rentals createdRental = rentalsService.createRental(rental);
         return ResponseEntity
                 .created(URI.create("/api/rentals/" + createdRental.getRentalId()))
@@ -59,10 +59,10 @@ public class RentalsController {
 
     // Update rental
     @PutMapping("/{id}")
-    public ResponseEntity<Rentals> updateRental(@PathVariable Long id, @Valid @RequestBody Rentals updatedRental,BindingResult result) {
-    	if (result.hasErrors()) {
-			throw new IllegalArgumentException("Invalid rentals data: " + result.getAllErrors());
-		}
+    public ResponseEntity<Rentals> updateRental(@PathVariable Long id, @Valid @RequestBody Rentals updatedRental, BindingResult result) {
+        if (result.hasErrors()) {
+            throw new IllegalArgumentException("Invalid rentals data: " + result.getAllErrors());
+        }
         Rentals updated = rentalsService.updateRental(id, updatedRental);
         return ResponseEntity.ok(updated);
     }

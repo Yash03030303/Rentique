@@ -33,7 +33,6 @@ public class Returns {
     @JoinColumn(name = "rental_id")
     private Rentals rental;
 
-
     @NotNull(message = "Return date is required")
     @PastOrPresent(message = "Return date cannot be in the future")
     @Column(name = "return_date")
