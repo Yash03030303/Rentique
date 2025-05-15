@@ -75,6 +75,13 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
+        
+        <dependency>
+<groupId>org.mockito</groupId>
+<artifactId>mockito-core</artifactId>
+<version>5.5.0</version> <!-- or latest -->
+<scope>test</scope>
+</dependency>
 
         <!-- Spring Boot Test -->
         <dependency>
@@ -88,6 +95,7 @@
         <!--jsonw web token-->
         
         <dependency>
+
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
 			<version>0.11.5</version>
@@ -120,6 +128,7 @@
 			<version>5.5.0</version> <!-- or latest -->
 			<scope>test</scope>
 		</dependency>
+
 
     </dependencies>
 

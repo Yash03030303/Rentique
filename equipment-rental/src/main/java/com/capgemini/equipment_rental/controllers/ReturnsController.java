@@ -32,21 +32,21 @@ public class ReturnsController {
 		this.rentalsService = rentalsService;
 	}
 
-	// Get all returns
+	
 	@GetMapping
 	public ResponseEntity<List<Returns>> getAllReturns() {
 		List<Returns> returnsList = returnsService.getAllReturns();
 		return ResponseEntity.ok(returnsList);
 	}
 
-	// Get return by ID
+	
 	@GetMapping("/{id}")
 	public ResponseEntity<Returns> getReturnById(@PathVariable Long id) {
 		Returns returns = returnsService.getReturnById(id);
 		return ResponseEntity.ok(returns);
 	}
 
-	// Update return
+
 	@PutMapping("/{id}")
 	public ResponseEntity<Returns> updateReturn(@PathVariable Long id, @Valid @RequestBody Returns updatedReturn, BindingResult result) {
 		if (result.hasErrors()) {
@@ -56,7 +56,7 @@ public class ReturnsController {
 		return ResponseEntity.ok(updated);
 	}
 
-	// Delete return
+	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteReturn(@PathVariable Long id) {
 		returnsService.deleteReturn(id);
