@@ -72,7 +72,6 @@ public class UsersServiceImpl implements UsersService {
 		log.debug("Updating fields for user ID: {}", userId);
 		existingUser.setName(updatedUser.getName());
 		existingUser.setEmail(updatedUser.getEmail());
-		existingUser.setPassword(updatedUser.getPassword());
 		existingUser.setPhone(updatedUser.getPhone());
 		existingUser.setUserType(updatedUser.getUserType());
 
