@@ -36,7 +36,7 @@ public class RentalsController {
             throw new IllegalArgumentException(result.getFieldErrors().toString());
         }
 
-        Rentals createdRental = rentalsService.createRental(rental);
+        Rentals createdRental = rentalsService.createRentals(rental);
         log.info("Rental created successfully with ID: {}", createdRental.getRentalId());
 
         return ResponseEntity
@@ -55,7 +55,7 @@ public class RentalsController {
     @GetMapping("/{id}")
     public ResponseEntity<Rentals> getRentalById(@PathVariable Long id) {
         log.info("Fetching rental with ID: {}", id);
-        Rentals rental = rentalsService.getRentalById(id);
+        Rentals rental = rentalsService.getRentalsById(id);
         log.debug("Rental fetched: {}", rental);
         return ResponseEntity.ok(rental);
     }
@@ -71,7 +71,7 @@ public class RentalsController {
             throw new IllegalArgumentException(result.getFieldErrors().toString());
         }
 
-        Rentals updated = rentalsService.updateRental(id, updatedRental);
+        Rentals updated = rentalsService.updateRentals(id, updatedRental);
         log.info("Rental with ID {} updated successfully", id);
 
         return ResponseEntity.ok(updated);
@@ -80,7 +80,7 @@ public class RentalsController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRental(@PathVariable Long id) {
         log.info("Received request to delete rental with ID: {}", id);
-        rentalsService.deleteRental(id);
+        rentalsService.deleteRentals(id);
         log.info("Rental with ID {} deleted successfully", id);
         return ResponseEntity.noContent().build();
     }

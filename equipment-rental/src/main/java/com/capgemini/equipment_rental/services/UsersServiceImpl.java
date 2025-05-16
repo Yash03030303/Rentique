@@ -92,4 +92,14 @@ public class UsersServiceImpl implements UsersService {
 		usersRepository.deleteById(userId);
 		log.info("User with ID: {} deleted successfully", userId);
 	}
+
+	@Override
+    public Users findByEmail(String email) {
+        return usersRepository.findByEmail(email);
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return usersRepository.existsByEmail(email);
+    }
 }

@@ -25,50 +25,47 @@ import com.capgemini.equipment_rental.services.UsersService;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-		AuthenticationManager authenticationManager;
-		UsersService userService;
-		PasswordEncoder passwordEncoder;
-		JwtUtils jwtService;
-		
-		@Autowired
-		public AuthController(AuthenticationManager authenticationManager, UsersService userService,
-				PasswordEncoder passwordEncoder, JwtUtils jwtService) {
-			super();
-			this.authenticationManager = authenticationManager;
-			this.userService = userService;
-			this.passwordEncoder = passwordEncoder;
-			this.jwtService = jwtService;
-		}
-		
-		@PostMapping("/signin")
-		public ResponseEntity<?> authenticateUser(@RequestBody LoginDto loginDto) {
-			Authentication authentication = authenticationManager
-					.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
+	AuthenticationManager authenticationManager;
+	UsersService userService;
+	PasswordEncoder passwordEncoder;
+	JwtUtils jwtService;
 
-			if (authentication.isAuthenticated()) {
-				Users user = userService.findByEmail(loginDto.getEmail());
-				Map<String, Object> claims = new HashMap<>();
-				claims.put("name", user.getName());
-				claims.put("phone", user.getPhone());
-				claims.put("email", user.getEmail());
-				claims.put("userid", user.getUserId());
-				claims.put("usertype", user.getUserType());
-				String token = jwtService.generateToken(loginDto.getEmail(), claims);
-				ResponseToken responseToken = new ResponseToken(token);
-				return ResponseEntity.status(HttpStatus.OK).body(responseToken);
-			}
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You are not Authorized !!");
-		}
+	@Autowired
+	public AuthController(AuthenticationManager authenticationManager, UsersService userService,
+			PasswordEncoder passwordEncoder, JwtUtils jwtService) {
+		super();
+		this.authenticationManager = authenticationManager;
+		this.userService = userService;
+		this.passwordEncoder = passwordEncoder;
+		this.jwtService = jwtService;
+	}
 
-		@PostMapping("/register")
-		public ResponseEntity<Users> registerUser(@RequestBody Users user) {
-			if (userService.existsByEmail(user.getEmail()))
-				throw new UserAlreadyExistsException(" Email Exists !");
-			user.setPassword(passwordEncoder.encode(user.getPassword()));
+	@PostMapping("/signin")
+	public ResponseEntity<?> authenticateUser(@RequestBody LoginDto loginDto) {
+		Authentication authentication = authenticationManager
+				.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
 
-			return ResponseEntity.status(HttpStatus.OK).body(userService.createUser(user));
+		if (authentication.isAuthenticated()) {
+			Users user = userService.findByEmail(loginDto.getEmail());
+			Map<String, Object> claims = new HashMap<>();
+			claims.put("name", user.getName());
+			claims.put("phone", user.getPhone());
+			claims.put("email", user.getEmail());
+			claims.put("userid", user.getUserId());
+			claims.put("usertype", user.getUserType());
+			String token = jwtService.generateToken(loginDto.getEmail(), claims);
+			ResponseToken responseToken = new ResponseToken(token);
+			return ResponseEntity.status(HttpStatus.OK).body(responseToken);
 		}
-		}
-		
-		
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You are not Authorized !!");
+	}
 
+	@PostMapping("/register")
+	public ResponseEntity<Users> registerUser(@RequestBody Users user) {
+		if (userService.existsByEmail(user.getEmail()))
+			throw new UserAlreadyExistsException(" Email Exists !");
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+		return ResponseEntity.status(HttpStatus.OK).body(userService.createUser(user));
+	}
+}
