@@ -22,8 +22,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	CustomUserDetailsService userDetailsServiceImpl;
 	
 	@Autowired
-	public JwtAuthenticationFilter(JwtUtils jwtService,
-			com.capgemini.equipment_rental.security.CustomUserDetailsService userDetailsServiceImpl) {
+	public JwtAuthenticationFilter(JwtUtils jwtService,com.capgemini.equipment_rental.security.CustomUserDetailsService userDetailsServiceImpl) {
 		super();
 		this.jwtService = jwtService;
 		this.userDetailsServiceImpl = userDetailsServiceImpl;
