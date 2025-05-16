@@ -4,154 +4,112 @@ import com.capgemini.equipment_rental.entity.Equipment;
 import com.capgemini.equipment_rental.entity.RentalItems;
 import com.capgemini.equipment_rental.entity.Rentals;
 import com.capgemini.equipment_rental.services.RentalItemsService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.*;
-
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(RentalItemsController.class)
 class RentalItemsControllerTest {
 
-    @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @Mock
     private RentalItemsService rentalItemsService;
 
-    private RentalItems rentalItem;
-    private ObjectMapper objectMapper;
+    @InjectMocks
+    private RentalItemsController rentalItemsController;
 
-//    @BeforeEach
-//    void setUp() {
-//        rentalItem = new RentalItems();
-//        rentalItem.setRentalItemId(1L);
-//        rentalItem.setQuantity(3L);
-//        rentalItem.setDaysRented(4L);
-//
-//        objectMapper = new ObjectMapper();
-//    }
-    
+    private RentalItems sampleItem;
+
     @BeforeEach
     void setUp() {
+        MockitoAnnotations.openMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(rentalItemsController).build();
+
         Rentals rental = new Rentals();
         rental.setRentalId(1L);
 
         Equipment equipment = new Equipment();
         equipment.setEquipmentId(1L);
 
-        rentalItem = new RentalItems();
-        rentalItem.setRentalItemId(1L);
-        rentalItem.setQuantity(3L);
-        rentalItem.setDaysRented(4L);
-        rentalItem.setRental(rental);
-        rentalItem.setEquipment(equipment);
-
-        objectMapper = new ObjectMapper();
+        sampleItem = new RentalItems();
+        sampleItem.setRentalItemId(1L);
+        sampleItem.setQuantity(2L);
+        sampleItem.setDaysRented(3L);
+        sampleItem.setRental(rental);
+        sampleItem.setEquipment(equipment);
     }
-    @Test
-    void testCreateRentalItem() throws Exception {
-        String requestBody = """
-            {
-                "rentalItemId": 1,
-                "quantity": 3,
-                "daysRented": 4,
-                "rental": {
-                    "rentalId": 1
-                },
-                "equipment": {
-                    "equipmentId": 1
-                }
-            }
-            """;
 
-        when(rentalItemsService.createRentalItem(any())).thenReturn(rentalItem);
+    @Test
+    void createRentalItem_returnsCreatedAndItem() throws Exception {
+        when(rentalItemsService.createRentalItem(any(RentalItems.class))).thenReturn(sampleItem);
+
+        String json = """
+                {
+                    "quantity": 2,
+                    "daysRented": 3,
+                    "rental": { "rentalId": 1 },
+                    "equipment": { "equipmentId": 1 }
+                }
+                """;
 
         mockMvc.perform(post("/api/rental-items")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.rentalItemId").value(1));
     }
 
-
-
-
-
     @Test
-    void testGetAllRentalItems() throws Exception {
-        when(rentalItemsService.getAllRentalItems()).thenReturn(Arrays.asList(rentalItem));
+    void getAllRentalItems_returnsOkAndList() throws Exception {
+        when(rentalItemsService.getAllRentalItems()).thenReturn(Arrays.asList(sampleItem));
 
         mockMvc.perform(get("/api/rental-items"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].quantity").value(3));
+                .andExpect(jsonPath("$[0].rentalItemId").value(1));
     }
 
     @Test
-    void testGetRentalItemById() throws Exception {
-        when(rentalItemsService.getRentalItemById(1L)).thenReturn(rentalItem);
+    void getRentalItemById_returnsOkAndItem() throws Exception {
+        when(rentalItemsService.getRentalItemById(1L)).thenReturn(sampleItem);
 
         mockMvc.perform(get("/api/rental-items/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.daysRented").value(4));
+                .andExpect(jsonPath("$.rentalItemId").value(1));
     }
 
-//    @Test
-//    void testUpdateRentalItem() throws Exception {
-//        rentalItem.setQuantity(10L);
-//        when(rentalItemsService.updateRentalItem(eq(1L), any())).thenReturn(rentalItem);
-//
-//        mockMvc.perform(put("/api/rental-items/1")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(rentalItem)))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.quantity").value(10));
-//    }
-    
     @Test
-    void testUpdateRentalItem() throws Exception {
-        // Mocked response object
-        rentalItem.setQuantity(10L);
+    void updateRentalItem_returnsOkAndUpdatedItem() throws Exception {
+        when(rentalItemsService.updateRentalItem(eq(1L), any(RentalItems.class))).thenReturn(sampleItem);
 
-        // JSON request matching expected structure
-        String requestBody = """
-            {
-                "rentalItemId": 1,
-                "quantity": 10,
-                "daysRented": 4,
-                "rental": {
-                    "rentalId": 1
-                },
-                "equipment": {
-                    "equipmentId": 1
+        String json = """
+                {
+                    "quantity": 5,
+                    "daysRented": 6,
+                    "rental": { "rentalId": 1 },
+                    "equipment": { "equipmentId": 1 }
                 }
-            }
-            """;
-
-        when(rentalItemsService.updateRentalItem(eq(1L), any())).thenReturn(rentalItem);
+                """;
 
         mockMvc.perform(put("/api/rental-items/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.quantity").value(10));
+                .andExpect(jsonPath("$.rentalItemId").value(1));
     }
 
-
     @Test
-    void testDeleteRentalItem() throws Exception {
+    void deleteRentalItem_returnsNoContent() throws Exception {
         doNothing().when(rentalItemsService).deleteRentalItem(1L);
 
         mockMvc.perform(delete("/api/rental-items/1"))

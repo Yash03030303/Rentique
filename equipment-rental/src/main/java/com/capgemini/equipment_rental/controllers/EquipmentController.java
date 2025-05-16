@@ -12,9 +12,11 @@ import com.capgemini.equipment_rental.entity.Equipment;
 import com.capgemini.equipment_rental.services.EquipmentService;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/equipment")
+@Slf4j
 public class EquipmentController {
 
     private final EquipmentService equipmentService;
@@ -24,49 +26,61 @@ public class EquipmentController {
         this.equipmentService = equipmentService;
     }
 
-    // Create new equipment
     @PostMapping
     public ResponseEntity<Equipment> createEquipment(@Valid @RequestBody Equipment equipment, BindingResult result) {
+        log.info("Received request to create equipment: {}", equipment);
+
         if (result.hasErrors()) {
-            throw new IllegalArgumentException("Invalid equipment data: " + result.getAllErrors());
+            log.warn("Validation failed for equipment creation: {}", result.getAllErrors());
+            throw new IllegalArgumentException(result.getFieldErrors().toString());
         }
+
         Equipment createdEquipment = equipmentService.createEquipment(equipment);
+        log.info("Equipment created successfully with ID: {}", createdEquipment.getEquipmentId());
+
         return ResponseEntity
                 .created(URI.create("/api/equipment/" + createdEquipment.getEquipmentId()))
                 .body(createdEquipment);
     }
 
-    // Get all equipment
     @GetMapping
     public ResponseEntity<List<Equipment>> getAllEquipment() {
+        log.info("Received request to fetch all equipment");
         List<Equipment> equipmentList = equipmentService.getAllEquipment();
+        log.debug("Number of equipment items fetched: {}", equipmentList.size());
         return ResponseEntity.ok(equipmentList);
     }
 
-    // Get equipment by ID
     @GetMapping("/{id}")
     public ResponseEntity<Equipment> getEquipmentById(@PathVariable Long id) {
+        log.info("Fetching equipment with ID: {}", id);
         Equipment equipment = equipmentService.getEquipmentById(id);
+        log.debug("Equipment fetched: {}", equipment);
         return ResponseEntity.ok(equipment);
     }
 
-    // Update equipment
     @PutMapping("/{id}")
     public ResponseEntity<Equipment> updateEquipment(
             @PathVariable Long id,
             @Valid @RequestBody Equipment updatedEquipment,
             BindingResult result) {
+        log.info("Received request to update equipment with ID: {}", id);
+
         if (result.hasErrors()) {
-            throw new IllegalArgumentException("Invalid equipment data: " + result.getAllErrors());
+            log.warn("Validation failed while updating equipment: {}", result.getAllErrors());
+            throw new IllegalArgumentException(result.getFieldErrors().toString());
         }
+
         Equipment updated = equipmentService.updateEquipment(id, updatedEquipment);
+        log.info("Equipment with ID {} updated successfully", id);
         return ResponseEntity.ok(updated);
     }
 
-    // Delete equipment
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEquipment(@PathVariable Long id) {
+        log.info("Received request to delete equipment with ID: {}", id);
         equipmentService.deleteEquipment(id);
+        log.info("Equipment with ID {} deleted successfully", id);
         return ResponseEntity.noContent().build();
     }
 }
