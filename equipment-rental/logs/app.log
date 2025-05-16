@@ -1870,4 +1870,252 @@ Caused by: org.hibernate.HibernateException: Unable to determine Dialect without
  2025-05-16 09:50:33 INFO  - Filter validated successfully
  2025-05-16 09:50:42 INFO  - Filter validated successfully
  2025-05-16 09:50:42 WARN  - Resolved [org.springframework.security.authorization.AuthorizationDeniedException: Access Denied]
+ 2025-05-16 11:44:07 WARN  - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h25m1s234ms707µs200ns).
+ 2025-05-16 12:00:56 WARN  - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=6m48s484ms900µs300ns).
+ 2025-05-16 12:22:39 INFO  - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+ 2025-05-16 12:22:39 INFO  - Commencing graceful shutdown. Waiting for active requests to complete
+ 2025-05-16 12:22:40 INFO  - Graceful shutdown complete
+ 2025-05-16 12:22:40 INFO  - Closing JPA EntityManagerFactory for persistence unit 'default'
+ 2025-05-16 12:22:40 INFO  - HikariPool-1 - Shutdown initiated...
+ 2025-05-16 12:22:41 INFO  - HikariPool-1 - Shutdown completed.
+ 2025-05-16 12:22:41 INFO  - Starting EquipmentRentalApplication using Java 17.0.11 with PID 11028 (C:\Users\kiran\git\repository11\equipment-rental\target\classes started by kiran in C:\Users\kiran\git\repository11\equipment-rental)
+ 2025-05-16 12:22:41 DEBUG - Running with Spring Boot v3.4.5, Spring v6.2.6
+ 2025-05-16 12:22:41 INFO  - No active profile set, falling back to 1 default profile: "default"
+ 2025-05-16 12:22:42 INFO  - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+ 2025-05-16 12:22:42 INFO  - Finished Spring Data repository scanning in 44 ms. Found 6 JPA repository interfaces.
+ 2025-05-16 12:22:42 INFO  - Tomcat initialized with port 8080 (http)
+ 2025-05-16 12:22:42 INFO  - Starting service [Tomcat]
+ 2025-05-16 12:22:42 INFO  - Starting Servlet engine: [Apache Tomcat/10.1.40]
+ 2025-05-16 12:22:42 INFO  - Initializing Spring embedded WebApplicationContext
+ 2025-05-16 12:22:42 INFO  - Root WebApplicationContext: initialization completed in 721 ms
+ 2025-05-16 12:22:42 INFO  - HHH000204: Processing PersistenceUnitInfo [name: default]
+ 2025-05-16 12:22:42 INFO  - HHH000026: Second-level cache disabled
+ 2025-05-16 12:22:42 INFO  - No LoadTimeWeaver setup: ignoring JPA class transformer
+ 2025-05-16 12:22:42 INFO  - HikariPool-2 - Starting...
+ 2025-05-16 12:22:48 INFO  - HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5fb06925
+ 2025-05-16 12:22:48 INFO  - HikariPool-2 - Start completed.
+ 2025-05-16 12:22:48 INFO  - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 8.0.34
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+ 2025-05-16 12:22:48 INFO  - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+ 2025-05-16 12:22:48 INFO  - Initialized JPA EntityManagerFactory for persistence unit 'default'
+ 2025-05-16 12:22:48 DEBUG - Filter 'jwtAuthenticationFilter' configured for use
+ 2025-05-16 12:22:48 INFO  - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+ 2025-05-16 12:22:48 WARN  - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+ 2025-05-16 12:22:48 WARN  - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+ 2025-05-16 12:22:48 WARN  - Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+ 2025-05-16 12:22:48 INFO  - LiveReload server is running on port 35729
+ 2025-05-16 12:22:48 INFO  - Tomcat started on port 8080 (http) with context path '/'
+ 2025-05-16 12:22:48 INFO  - Started EquipmentRentalApplication in 7.018 seconds (process running for 9805.719)
+ 2025-05-16 12:22:48 INFO  - Condition evaluation unchanged
+ 2025-05-16 12:23:39 INFO  - Restarting due to 3 class path changes (0 additions, 0 deletions, 3 modifications)
+ 2025-05-16 12:23:39 INFO  - Commencing graceful shutdown. Waiting for active requests to complete
+ 2025-05-16 12:23:39 INFO  - Graceful shutdown complete
+ 2025-05-16 12:23:39 INFO  - Closing JPA EntityManagerFactory for persistence unit 'default'
+ 2025-05-16 12:23:39 INFO  - HikariPool-2 - Shutdown initiated...
+ 2025-05-16 12:23:40 INFO  - HikariPool-2 - Shutdown completed.
+ 2025-05-16 12:23:40 INFO  - Starting EquipmentRentalApplication using Java 17.0.11 with PID 11028 (C:\Users\kiran\git\repository11\equipment-rental\target\classes started by kiran in C:\Users\kiran\git\repository11\equipment-rental)
+ 2025-05-16 12:23:40 DEBUG - Running with Spring Boot v3.4.5, Spring v6.2.6
+ 2025-05-16 12:23:40 INFO  - No active profile set, falling back to 1 default profile: "default"
+ 2025-05-16 12:23:40 INFO  - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+ 2025-05-16 12:23:40 INFO  - Finished Spring Data repository scanning in 41 ms. Found 6 JPA repository interfaces.
+ 2025-05-16 12:23:40 INFO  - Tomcat initialized with port 8080 (http)
+ 2025-05-16 12:23:40 INFO  - Starting service [Tomcat]
+ 2025-05-16 12:23:40 INFO  - Starting Servlet engine: [Apache Tomcat/10.1.40]
+ 2025-05-16 12:23:40 INFO  - Initializing Spring embedded WebApplicationContext
+ 2025-05-16 12:23:40 INFO  - Root WebApplicationContext: initialization completed in 471 ms
+ 2025-05-16 12:23:40 INFO  - HHH000204: Processing PersistenceUnitInfo [name: default]
+ 2025-05-16 12:23:40 INFO  - HHH000026: Second-level cache disabled
+ 2025-05-16 12:23:40 INFO  - No LoadTimeWeaver setup: ignoring JPA class transformer
+ 2025-05-16 12:23:40 INFO  - HikariPool-3 - Starting...
+ 2025-05-16 12:23:46 INFO  - HikariPool-3 - Added connection com.mysql.cj.jdbc.ConnectionImpl@36e772f8
+ 2025-05-16 12:23:46 INFO  - HikariPool-3 - Start completed.
+ 2025-05-16 12:23:46 INFO  - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-3)']
+	Database driver: undefined/unknown
+	Database version: 8.0.34
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+ 2025-05-16 12:23:46 INFO  - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+ 2025-05-16 12:23:46 INFO  - Initialized JPA EntityManagerFactory for persistence unit 'default'
+ 2025-05-16 12:23:46 DEBUG - Filter 'jwtAuthenticationFilter' configured for use
+ 2025-05-16 12:23:46 INFO  - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+ 2025-05-16 12:23:46 WARN  - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+ 2025-05-16 12:23:46 WARN  - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+ 2025-05-16 12:23:46 WARN  - Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+ 2025-05-16 12:23:46 INFO  - LiveReload server is running on port 35729
+ 2025-05-16 12:23:46 INFO  - Tomcat started on port 8080 (http) with context path '/'
+ 2025-05-16 12:23:46 INFO  - Started EquipmentRentalApplication in 6.776 seconds (process running for 9863.981)
+ 2025-05-16 12:23:46 INFO  - Condition evaluation unchanged
+ 2025-05-16 12:27:44 INFO  - Restarting due to 3 class path changes (0 additions, 0 deletions, 3 modifications)
+ 2025-05-16 12:27:44 INFO  - Commencing graceful shutdown. Waiting for active requests to complete
+ 2025-05-16 12:27:44 INFO  - Graceful shutdown complete
+ 2025-05-16 12:27:44 INFO  - Closing JPA EntityManagerFactory for persistence unit 'default'
+ 2025-05-16 12:27:44 INFO  - HikariPool-3 - Shutdown initiated...
+ 2025-05-16 12:27:44 INFO  - HikariPool-3 - Shutdown completed.
+ 2025-05-16 12:27:45 INFO  - Starting EquipmentRentalApplication using Java 17.0.11 with PID 11028 (C:\Users\kiran\git\repository11\equipment-rental\target\classes started by kiran in C:\Users\kiran\git\repository11\equipment-rental)
+ 2025-05-16 12:27:45 DEBUG - Running with Spring Boot v3.4.5, Spring v6.2.6
+ 2025-05-16 12:27:45 INFO  - No active profile set, falling back to 1 default profile: "default"
+ 2025-05-16 12:27:45 INFO  - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+ 2025-05-16 12:27:45 INFO  - Finished Spring Data repository scanning in 37 ms. Found 6 JPA repository interfaces.
+ 2025-05-16 12:27:45 INFO  - Tomcat initialized with port 8080 (http)
+ 2025-05-16 12:27:45 INFO  - Starting service [Tomcat]
+ 2025-05-16 12:27:45 INFO  - Starting Servlet engine: [Apache Tomcat/10.1.40]
+ 2025-05-16 12:27:45 INFO  - Initializing Spring embedded WebApplicationContext
+ 2025-05-16 12:27:45 INFO  - Root WebApplicationContext: initialization completed in 364 ms
+ 2025-05-16 12:27:45 INFO  - HHH000204: Processing PersistenceUnitInfo [name: default]
+ 2025-05-16 12:27:45 INFO  - HHH000026: Second-level cache disabled
+ 2025-05-16 12:27:45 INFO  - No LoadTimeWeaver setup: ignoring JPA class transformer
+ 2025-05-16 12:27:45 INFO  - HikariPool-4 - Starting...
+ 2025-05-16 12:27:50 INFO  - HikariPool-4 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4be010df
+ 2025-05-16 12:27:50 INFO  - HikariPool-4 - Start completed.
+ 2025-05-16 12:27:50 INFO  - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-4)']
+	Database driver: undefined/unknown
+	Database version: 8.0.34
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+ 2025-05-16 12:27:51 INFO  - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+ 2025-05-16 12:27:51 INFO  - Initialized JPA EntityManagerFactory for persistence unit 'default'
+ 2025-05-16 12:27:51 DEBUG - Filter 'jwtAuthenticationFilter' configured for use
+ 2025-05-16 12:27:51 INFO  - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+ 2025-05-16 12:27:51 WARN  - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+ 2025-05-16 12:27:51 WARN  - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+ 2025-05-16 12:27:51 WARN  - Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+ 2025-05-16 12:27:51 INFO  - LiveReload server is running on port 35729
+ 2025-05-16 12:27:51 INFO  - Tomcat started on port 8080 (http) with context path '/'
+ 2025-05-16 12:27:51 INFO  - Started EquipmentRentalApplication in 6.348 seconds (process running for 10108.364)
+ 2025-05-16 12:27:51 INFO  - Condition evaluation unchanged
+ 2025-05-16 12:27:52 INFO  - Restarting due to 57 class path changes (0 additions, 0 deletions, 57 modifications)
+ 2025-05-16 12:27:52 INFO  - Commencing graceful shutdown. Waiting for active requests to complete
+ 2025-05-16 12:27:52 INFO  - Graceful shutdown complete
+ 2025-05-16 12:27:52 INFO  - Closing JPA EntityManagerFactory for persistence unit 'default'
+ 2025-05-16 12:27:52 INFO  - HikariPool-4 - Shutdown initiated...
+ 2025-05-16 12:27:56 INFO  - HikariPool-4 - Shutdown completed.
+ 2025-05-16 12:27:56 INFO  - Starting EquipmentRentalApplication using Java 17.0.11 with PID 11028 (C:\Users\kiran\git\repository11\equipment-rental\target\classes started by kiran in C:\Users\kiran\git\repository11\equipment-rental)
+ 2025-05-16 12:27:56 DEBUG - Running with Spring Boot v3.4.5, Spring v6.2.6
+ 2025-05-16 12:27:56 INFO  - No active profile set, falling back to 1 default profile: "default"
+ 2025-05-16 12:27:56 INFO  - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+ 2025-05-16 12:27:56 INFO  - Finished Spring Data repository scanning in 36 ms. Found 6 JPA repository interfaces.
+ 2025-05-16 12:27:56 INFO  - Tomcat initialized with port 8080 (http)
+ 2025-05-16 12:27:56 INFO  - Starting service [Tomcat]
+ 2025-05-16 12:27:56 INFO  - Starting Servlet engine: [Apache Tomcat/10.1.40]
+ 2025-05-16 12:27:56 INFO  - Initializing Spring embedded WebApplicationContext
+ 2025-05-16 12:27:56 INFO  - Root WebApplicationContext: initialization completed in 306 ms
+ 2025-05-16 12:27:56 INFO  - HHH000204: Processing PersistenceUnitInfo [name: default]
+ 2025-05-16 12:27:56 INFO  - HHH000026: Second-level cache disabled
+ 2025-05-16 12:27:56 INFO  - No LoadTimeWeaver setup: ignoring JPA class transformer
+ 2025-05-16 12:27:56 INFO  - HikariPool-5 - Starting...
+ 2025-05-16 12:28:02 INFO  - HikariPool-5 - Added connection com.mysql.cj.jdbc.ConnectionImpl@773e8f33
+ 2025-05-16 12:28:02 INFO  - HikariPool-5 - Start completed.
+ 2025-05-16 12:28:02 INFO  - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-5)']
+	Database driver: undefined/unknown
+	Database version: 8.0.34
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+ 2025-05-16 12:28:02 INFO  - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+ 2025-05-16 12:28:02 INFO  - Initialized JPA EntityManagerFactory for persistence unit 'default'
+ 2025-05-16 12:28:02 DEBUG - Filter 'jwtAuthenticationFilter' configured for use
+ 2025-05-16 12:28:02 INFO  - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+ 2025-05-16 12:28:02 WARN  - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+ 2025-05-16 12:28:02 WARN  - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+ 2025-05-16 12:28:02 WARN  - Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+ 2025-05-16 12:28:02 INFO  - LiveReload server is running on port 35729
+ 2025-05-16 12:28:02 INFO  - Tomcat started on port 8080 (http) with context path '/'
+ 2025-05-16 12:28:02 INFO  - Started EquipmentRentalApplication in 6.021 seconds (process running for 10119.414)
+ 2025-05-16 12:28:02 INFO  - Condition evaluation unchanged
+ 2025-05-16 12:54:08 INFO  - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+ 2025-05-16 12:54:08 INFO  - Commencing graceful shutdown. Waiting for active requests to complete
+ 2025-05-16 12:54:08 INFO  - Graceful shutdown complete
+ 2025-05-16 12:54:08 INFO  - Closing JPA EntityManagerFactory for persistence unit 'default'
+ 2025-05-16 12:54:08 INFO  - HikariPool-5 - Shutdown initiated...
+ 2025-05-16 12:54:09 INFO  - HikariPool-5 - Shutdown completed.
+ 2025-05-16 12:54:09 INFO  - Starting EquipmentRentalApplication using Java 17.0.11 with PID 11028 (C:\Users\kiran\git\repository11\equipment-rental\target\classes started by kiran in C:\Users\kiran\git\repository11\equipment-rental)
+ 2025-05-16 12:54:09 DEBUG - Running with Spring Boot v3.4.5, Spring v6.2.6
+ 2025-05-16 12:54:09 INFO  - No active profile set, falling back to 1 default profile: "default"
+ 2025-05-16 12:54:09 INFO  - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+ 2025-05-16 12:54:09 INFO  - Finished Spring Data repository scanning in 40 ms. Found 6 JPA repository interfaces.
+ 2025-05-16 12:54:10 INFO  - Tomcat initialized with port 8080 (http)
+ 2025-05-16 12:54:10 INFO  - Starting service [Tomcat]
+ 2025-05-16 12:54:10 INFO  - Starting Servlet engine: [Apache Tomcat/10.1.40]
+ 2025-05-16 12:54:10 INFO  - Initializing Spring embedded WebApplicationContext
+ 2025-05-16 12:54:10 INFO  - Root WebApplicationContext: initialization completed in 468 ms
+ 2025-05-16 12:54:10 INFO  - HHH000204: Processing PersistenceUnitInfo [name: default]
+ 2025-05-16 12:54:10 INFO  - HHH000026: Second-level cache disabled
+ 2025-05-16 12:54:10 INFO  - No LoadTimeWeaver setup: ignoring JPA class transformer
+ 2025-05-16 12:54:10 INFO  - HikariPool-6 - Starting...
+ 2025-05-16 12:54:15 INFO  - HikariPool-6 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1099e98f
+ 2025-05-16 12:54:15 INFO  - HikariPool-6 - Start completed.
+ 2025-05-16 12:54:15 INFO  - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-6)']
+	Database driver: undefined/unknown
+	Database version: 8.0.34
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+ 2025-05-16 12:54:15 INFO  - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+ 2025-05-16 12:54:15 INFO  - Initialized JPA EntityManagerFactory for persistence unit 'default'
+ 2025-05-16 12:54:15 DEBUG - Filter 'jwtAuthenticationFilter' configured for use
+ 2025-05-16 12:54:15 INFO  - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+ 2025-05-16 12:54:15 WARN  - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+ 2025-05-16 12:54:15 WARN  - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+ 2025-05-16 12:54:15 WARN  - Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+ 2025-05-16 12:54:15 INFO  - LiveReload server is running on port 35729
+ 2025-05-16 12:54:15 INFO  - Tomcat started on port 8080 (http) with context path '/'
+ 2025-05-16 12:54:15 INFO  - Started EquipmentRentalApplication in 6.335 seconds (process running for 11692.907)
+ 2025-05-16 12:54:15 INFO  - Condition evaluation unchanged
+ 2025-05-16 12:56:10 INFO  - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+ 2025-05-16 12:56:10 INFO  - Commencing graceful shutdown. Waiting for active requests to complete
+ 2025-05-16 12:56:10 INFO  - Graceful shutdown complete
+ 2025-05-16 12:56:10 INFO  - Closing JPA EntityManagerFactory for persistence unit 'default'
+ 2025-05-16 12:56:10 INFO  - HikariPool-6 - Shutdown initiated...
+ 2025-05-16 12:56:11 INFO  - HikariPool-6 - Shutdown completed.
+ 2025-05-16 12:56:11 INFO  - Starting EquipmentRentalApplication using Java 17.0.11 with PID 11028 (C:\Users\kiran\git\repository11\equipment-rental\target\classes started by kiran in C:\Users\kiran\git\repository11\equipment-rental)
+ 2025-05-16 12:56:11 DEBUG - Running with Spring Boot v3.4.5, Spring v6.2.6
+ 2025-05-16 12:56:11 INFO  - No active profile set, falling back to 1 default profile: "default"
+ 2025-05-16 12:56:11 INFO  - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+ 2025-05-16 12:56:11 INFO  - Finished Spring Data repository scanning in 44 ms. Found 6 JPA repository interfaces.
+ 2025-05-16 12:56:11 INFO  - Tomcat initialized with port 8080 (http)
+ 2025-05-16 12:56:11 INFO  - Starting service [Tomcat]
+ 2025-05-16 12:56:11 INFO  - Starting Servlet engine: [Apache Tomcat/10.1.40]
+ 2025-05-16 12:56:11 INFO  - Initializing Spring embedded WebApplicationContext
+ 2025-05-16 12:56:11 INFO  - Root WebApplicationContext: initialization completed in 403 ms
+ 2025-05-16 12:56:11 INFO  - HHH000204: Processing PersistenceUnitInfo [name: default]
+ 2025-05-16 12:56:11 INFO  - HHH000026: Second-level cache disabled
+ 2025-05-16 12:56:11 INFO  - No LoadTimeWeaver setup: ignoring JPA class transformer
+ 2025-05-16 12:56:11 INFO  - HikariPool-7 - Starting...
+ 2025-05-16 12:56:17 INFO  - HikariPool-7 - Added connection com.mysql.cj.jdbc.ConnectionImpl@36d88d1e
+ 2025-05-16 12:56:17 INFO  - HikariPool-7 - Start completed.
+ 2025-05-16 12:56:17 INFO  - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-7)']
+	Database driver: undefined/unknown
+	Database version: 8.0.34
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+ 2025-05-16 12:56:17 INFO  - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+ 2025-05-16 12:56:17 INFO  - Initialized JPA EntityManagerFactory for persistence unit 'default'
+ 2025-05-16 12:56:17 DEBUG - Filter 'jwtAuthenticationFilter' configured for use
+ 2025-05-16 12:56:17 INFO  - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+ 2025-05-16 12:56:17 WARN  - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+ 2025-05-16 12:56:17 WARN  - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+ 2025-05-16 12:56:17 WARN  - Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+ 2025-05-16 12:56:17 INFO  - LiveReload server is running on port 35729
+ 2025-05-16 12:56:17 INFO  - Tomcat started on port 8080 (http) with context path '/'
+ 2025-05-16 12:56:17 INFO  - Started EquipmentRentalApplication in 6.219 seconds (process running for 11814.556)
+ 2025-05-16 12:56:17 INFO  - Condition evaluation unchanged
  
