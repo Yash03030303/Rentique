@@ -15,10 +15,10 @@ public interface UsersService {
 	Users updateUser(Long userId, Users user);
 
 	void deleteUser(Long userId);
-	
+
 	Users findByEmail(String email);
-	
-	
+
 	boolean existsByEmail(String email);
+	
 
 }
