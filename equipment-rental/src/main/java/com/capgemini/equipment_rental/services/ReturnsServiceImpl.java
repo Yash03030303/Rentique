@@ -9,50 +9,69 @@ import com.capgemini.equipment_rental.entity.Returns;
 import com.capgemini.equipment_rental.exceptions.ReturnNotFoundException;
 import com.capgemini.equipment_rental.repositories.ReturnsRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class ReturnsServiceImpl implements ReturnsService {
 
-   
-    private ReturnsRepository returnsRepository;
-    
+    private final ReturnsRepository returnsRepository;
+
     @Autowired
     public ReturnsServiceImpl(ReturnsRepository returnsRepository) {
-		super();
-		this.returnsRepository = returnsRepository;
-	}
+        this.returnsRepository = returnsRepository;
+    }
 
-	@Override
+    @Override
     public Returns createReturn(Returns returns) {
-        return returnsRepository.save(returns);
+        log.info("Attempting to create a return record for Rental ID: {}", returns.getRental() != null ? returns.getRental().getRentalId() : "null");
+        Returns savedReturn = returnsRepository.save(returns);
+        log.info("Return record created with ID: {}", savedReturn.getReturnId());
+        return savedReturn;
     }
 
     @Override
     public Returns getReturnById(Long returnId) {
-        return returnsRepository.findById(returnId)
-                .orElseThrow(() -> new ReturnNotFoundException("Return with ID " + returnId + " not found."));
+        log.info("Fetching return with ID: {}", returnId);
+        return returnsRepository.findById(returnId).orElseThrow(() -> {
+            log.warn("Return not found with ID: {}", returnId);
+            return new ReturnNotFoundException("Return with ID " + returnId + " not found.");
+        });
     }
 
     @Override
     public List<Returns> getAllReturns() {
-        return returnsRepository.findAll();
+        log.info("Fetching all return records");
+        List<Returns> allReturns = returnsRepository.findAll();
+        log.debug("Number of return records found: {}", allReturns.size());
+        return allReturns;
     }
 
     @Override
     public Returns updateReturn(Long returnId, Returns updatedReturn) {
+        log.info("Attempting to update return with ID: {}", returnId);
         Returns existingReturn = getReturnById(returnId);
 
+        log.debug("Updating return fields for ID: {}", returnId);
         existingReturn.setReturnDate(updatedReturn.getReturnDate());
         existingReturn.setItemCondition(updatedReturn.getItemCondition());
         existingReturn.setLateFee(updatedReturn.getLateFee());
 
-        return returnsRepository.save(existingReturn);
+        Returns savedReturn = returnsRepository.save(existingReturn);
+        log.info("Return with ID {} updated successfully", returnId);
+        return savedReturn;
     }
 
     @Override
     public void deleteReturn(Long returnId) {
+        log.info("Attempting to delete return with ID: {}", returnId);
+
         if (!returnsRepository.existsById(returnId)) {
+            log.warn("Return not found with ID: {}", returnId);
             throw new ReturnNotFoundException("Return with ID " + returnId + " not found.");
         }
+
         returnsRepository.deleteById(returnId);
+        log.info("Return with ID {} deleted successfully", returnId);
     }
 }
