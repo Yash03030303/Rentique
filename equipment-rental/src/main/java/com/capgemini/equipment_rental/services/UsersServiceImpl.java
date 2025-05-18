@@ -72,7 +72,6 @@ public class UsersServiceImpl implements UsersService {
 		log.debug("Updating fields for user ID: {}", userId);
 		existingUser.setName(updatedUser.getName());
 		existingUser.setEmail(updatedUser.getEmail());
-		existingUser.setPassword(updatedUser.getPassword());
 		existingUser.setPhone(updatedUser.getPhone());
 		existingUser.setUserType(updatedUser.getUserType());
 
@@ -93,4 +92,14 @@ public class UsersServiceImpl implements UsersService {
 		usersRepository.deleteById(userId);
 		log.info("User with ID: {} deleted successfully", userId);
 	}
+
+	@Override
+    public Users findByEmail(String email) {
+        return usersRepository.findByEmail(email);
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return usersRepository.existsByEmail(email);
+    }
 }
