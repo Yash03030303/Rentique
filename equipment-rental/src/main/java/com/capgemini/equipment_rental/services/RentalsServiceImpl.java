@@ -32,7 +32,9 @@ public class RentalsServiceImpl implements RentalsService {
 	}
 
 	@Override
+
 	public Rentals createRentals(Rentals rental) {
+
 		log.info("Creating new rental for user ID: {}", rental.getUser() != null ? rental.getUser().getUserId() : "null");
 		Rentals savedRental = rentalsRepository.save(rental);
 		log.info("Rental created with ID: {}", savedRental.getRentalId());
@@ -40,7 +42,9 @@ public class RentalsServiceImpl implements RentalsService {
 	}
 
 	@Override
+
 	public Rentals getRentalsById(Long rentalId) {
+
 		log.info("Fetching rental with ID: {}", rentalId);
 		return rentalsRepository.findById(rentalId).orElseThrow(() -> {
 			log.warn("Rental not found with ID: {}", rentalId);
@@ -57,6 +61,7 @@ public class RentalsServiceImpl implements RentalsService {
 	}
 
 	@Override
+
 	public Rentals updateRentals(Long rentalId, Rentals updatedRental) {
 		log.info("Attempting to update rental with ID: {}", rentalId);
 		Rentals existingRental = getRentalsById(rentalId);
@@ -75,6 +80,7 @@ public class RentalsServiceImpl implements RentalsService {
 
 	@Override
 	public void deleteRentals(Long rentalId) {
+
 		log.info("Attempting to delete rental with ID: {}", rentalId);
 
 		if (!rentalsRepository.existsById(rentalId)) {
