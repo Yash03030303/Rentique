@@ -4,7 +4,9 @@ import java.time.LocalDate;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+
 import org.springframework.stereotype.Repository;
 
 import com.capgemini.equipment_rental.entity.Returns;
@@ -13,4 +15,5 @@ import com.capgemini.equipment_rental.entity.Returns;
 public interface ReturnsRepository extends JpaRepository<Returns, Long> {
 	Page<Returns> findByItemConditionContainingIgnoreCaseAndReturnDateBetween(
 		    String itemCondition, LocalDate startDate, LocalDate endDate, Pageable pageable);
+
 }

@@ -1,0 +1,99 @@
+/* Analytics Page Styles */
+.metric-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.metric-card:hover {
+    transform: translateY(-5px);
+}
+
+.metric-icon {
+    opacity: 0.8;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.bg-primary .metric-icon {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.bg-success .metric-icon {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.bg-info .metric-icon {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.bg-warning .metric-icon {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.table th {
+    border-top: none;
+    font-weight: 600;
+    color: #495057;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.badge {
+    padding: 0.5em 0.8em;
+    font-weight: 500;
+}
+
+.form-select {
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    padding: 0.5rem 2.5rem 0.5rem 1rem;
+}
+
+.form-select:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn-primary {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+}
+
+/* Chart containers */
+canvas {
+    max-width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .metric-card {
+        margin-bottom: 1rem;
+    }
+    
+    .row > div {
+        margin-bottom: 1rem;
+    }
+    
+    .d-flex.gap-2 {
+        flex-direction: column;
+    }
+    
+    .form-select, .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}

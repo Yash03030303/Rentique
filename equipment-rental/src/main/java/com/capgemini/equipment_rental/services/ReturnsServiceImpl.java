@@ -1,6 +1,8 @@
 package com.capgemini.equipment_rental.services;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +10,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.capgemini.equipment_rental.entity.Rentals;
 import com.capgemini.equipment_rental.entity.Returns;
 import com.capgemini.equipment_rental.exceptions.ReturnNotFoundException;
+import com.capgemini.equipment_rental.repositories.RentalsRepository;
 import com.capgemini.equipment_rental.repositories.ReturnsRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,69 +22,79 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ReturnsServiceImpl implements ReturnsService {
 
-    private final ReturnsRepository returnsRepository;
+	private final ReturnsRepository returnsRepository;
+	private final RentalsRepository rentalsRepository;
 
-    @Autowired
-    public ReturnsServiceImpl(ReturnsRepository returnsRepository) {
-        this.returnsRepository = returnsRepository;
-    }
+	@Autowired
+	public ReturnsServiceImpl(ReturnsRepository returnsRepository, RentalsRepository rentalsRepository) {
+		this.returnsRepository = returnsRepository;
+		this.rentalsRepository = rentalsRepository;
+	}
 
-    @Override
-    public Returns createReturn(Returns returns) {
-        log.info("Attempting to create a return record for Rental ID: {}", returns.getRental() != null ? returns.getRental().getRentalId() : "null");
-        Returns savedReturn = returnsRepository.save(returns);
-        log.info("Return record created with ID: {}", savedReturn.getReturnId());
-        return savedReturn;
-    }
+	@Override
+	public Returns createReturn(Returns returns) {
+		Long rentalId = returns.getRental() != null ? returns.getRental().getRentalId() : null;
+		log.info("Attempting to create a return record for Rental ID: {}", rentalId);
 
-    @Override
-    public Returns getReturnById(Long returnId) {
-        log.info("Fetching return with ID: {}", returnId);
-        return returnsRepository.findById(returnId).orElseThrow(() -> {
-            log.warn("Return not found with ID: {}", returnId);
-            return new ReturnNotFoundException("Return with ID " + returnId + " not found.");
-        });
-    }
+		if (rentalId == null) {
+			throw new IllegalArgumentException("Rental ID must not be null");
+		}
 
-    @Override
-    public List<Returns> getAllReturns() {
-        log.info("Fetching all return records");
-        List<Returns> allReturns = returnsRepository.findAll();
-        log.debug("Number of return records found: {}", allReturns.size());
-        return allReturns;
-    }
+		Rentals rental = rentalsRepository.findById(rentalId)
+				.orElseThrow(() -> new RuntimeException("Rental with ID " + rentalId + " not found"));
 
-    @Override
-    public Returns updateReturn(Long returnId, Returns updatedReturn) {
-        log.info("Attempting to update return with ID: {}", returnId);
-        Returns existingReturn = getReturnById(returnId);
+		LocalDate dueDate = rental.getDueDate();
+		LocalDate returnDate = returns.getReturnDate();
+		BigDecimal lateFee = BigDecimal.ZERO;
 
-        log.debug("Updating return fields for ID: {}", returnId);
-        existingReturn.setReturnDate(updatedReturn.getReturnDate());
-        existingReturn.setItemCondition(updatedReturn.getItemCondition());
-        existingReturn.setLateFee(updatedReturn.getLateFee());
+		if (returnDate != null && returnDate.isAfter(dueDate)) {
+			long daysLate = ChronoUnit.DAYS.between(dueDate, returnDate);
+			lateFee = BigDecimal.valueOf(daysLate * 50); // ₹50 per late day
+		}
 
-        Returns savedReturn = returnsRepository.save(existingReturn);
-        log.info("Return with ID {} updated successfully", returnId);
-        return savedReturn;
-    }
+		returns.setLateFee(lateFee);
+		returns.setRental(rental); // Ensure full Rental object is set
 
-    @Override
-    public void deleteReturn(Long returnId) {
-        log.info("Attempting to delete return with ID: {}", returnId);
+		Returns savedReturn = returnsRepository.save(returns);
+		log.info("Return record created with ID: {}", savedReturn.getReturnId());
+		return savedReturn;
+	}
 
-        if (!returnsRepository.existsById(returnId)) {
-            log.warn("Return not found with ID: {}", returnId);
-            throw new ReturnNotFoundException("Return with ID " + returnId + " not found.");
-        }
+	@Override
+	public Returns getReturnById(Long returnId) {
+		log.info("Fetching return with ID: {}", returnId);
+		return returnsRepository.findById(returnId).orElseThrow(() -> {
+			log.warn("Return not found with ID: {}", returnId);
+			return new ReturnNotFoundException("Return with ID " + returnId + " not found.");
+		});
+	}
 
-        returnsRepository.deleteById(returnId);
-        log.info("Return with ID {} deleted successfully", returnId);
-    }
-    
-    @Override
-    public Page<Returns> getReturnsByConditionAndDateRange(String itemCondition, LocalDate startDate, LocalDate endDate, Pageable pageable) {
-        return returnsRepository.findByItemConditionContainingIgnoreCaseAndReturnDateBetween(itemCondition, startDate, endDate, pageable);
-    }
+	@Override
+	public List<Returns> getAllReturns() {
+		log.info("Fetching all return records");
+		List<Returns> allReturns = returnsRepository.findAll();
+		log.debug("Number of return records found: {}", allReturns.size());
+		return allReturns;
+	}
+
+	@Override
+	public void deleteReturn(Long returnId) {
+		log.info("Attempting to delete return with ID: {}", returnId);
+
+		if (!returnsRepository.existsById(returnId)) {
+			log.warn("Return not found with ID: {}", returnId);
+			throw new ReturnNotFoundException("Return with ID " + returnId + " not found.");
+		}
+
+		returnsRepository.deleteById(returnId);
+		log.info("Return with ID {} deleted successfully", returnId);
+	}
+
+	@Override
+	public Page<Returns> getReturnsByConditionAndDateRange(String itemCondition, LocalDate startDate, LocalDate endDate,
+			Pageable pageable) {
+		return returnsRepository.findByItemConditionContainingIgnoreCaseAndReturnDateBetween(itemCondition, startDate,
+				endDate, pageable);
+	}
 
 }

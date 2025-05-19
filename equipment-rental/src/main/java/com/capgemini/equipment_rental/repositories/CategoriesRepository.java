@@ -9,4 +9,6 @@ import com.capgemini.equipment_rental.entity.Categories;
 public interface CategoriesRepository extends JpaRepository<Categories, Long> {
 
     boolean existsByName(String categoryName);
+    Categories findByName(String name);
+
 }

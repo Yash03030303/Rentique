@@ -1,0 +1,63 @@
+<div class="container mt-4">
+  <h2 class="mb-4 text-center">Completed Returns</h2>
+
+  <div class="row mb-3">
+    <div class="col-md-3 offset-md-1">
+      <input
+        type="text"
+        id="searchInput"
+        class="form-control"
+        placeholder="Search by condition..."
+      />
+    </div>
+    <div class="col-md-3">
+      <input
+        type="date"
+        id="startDate"
+        class="form-control"
+        placeholder="Start Date"
+      />
+    </div>
+    <div class="col-md-3">
+      <input
+        type="date"
+        id="endDate"
+        class="form-control"
+        placeholder="End Date"
+      />
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-primary w-100" onclick="fetchCompletedReturns()">
+        Search
+      </button>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table
+      class="table table-bordered table-hover table-striped align-middle text-center"
+    >
+      <thead class="table-dark">
+        <tr>
+          <th>Return Code</th>
+          <th class="sortable" onclick="sortBy('returnDate')">
+            Return Date 🔃
+          </th>
+          <th>Item Condition</th>
+          <th class="sortable" onclick="sortBy('lateFee')">Late Fee (₹) 🔃</th>
+        </tr>
+      </thead>
+      <tbody id="returnsTableBody"></tbody>
+    </table>
+  </div>
+
+  <nav>
+    <ul class="pagination justify-content-center" id="paginationControls"></ul>
+  </nav>
+
+  <div id="errorMessage" class="alert alert-danger d-none mt-3" role="alert">
+    Failed to load return data. Please try again later.
+  </div>
+</div>
+
+<script src="js/completed-returns.js"></script>

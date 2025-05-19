@@ -1,2 +1,95 @@
 HELP.md
 target/
+
+# -----------------
+# Maven and Java
+# -----------------
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven build logs
+mvnw.cmd
+mvnw
+.mvn/
+log/
+*.log
+
+# -----------------
+# Spring Boot
+# -----------------
+spring-boot-loader.jar
+spring-boot-devtools.jar
+
+# -----------------
+# Eclipse
+# -----------------
+.project
+.classpath
+.settings/
+
+# -----------------
+# IntelliJ IDEA
+# -----------------
+.idea/
+*.iml
+*.iws
+out/
+
+# -----------------
+# NetBeans
+# -----------------
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# -----------------
+# OS / Misc
+# -----------------
+.DS_Store
+Thumbs.db
+
+# -----------------
+# Environment and Config
+# -----------------
+*.env
+.env.*
+*.properties
+application*.yml
+application*.yaml
+
+# If you have secret config, include them here
+secret/
+credentials/
+
+# -----------------
+# Logs
+# -----------------
+*.log
+logs/
+*.out
+
+# -----------------
+# Test Results
+# -----------------
+test-output/
+surefire-reports/
+jacoco.exec
+
+# -----------------
+# IDE-specific folders
+# -----------------
+.vscode/
+.vscode/*
+
+# -----------------
+# Optional - Git-specific
+# -----------------
+.gitmodules
+*.swp
+*~
