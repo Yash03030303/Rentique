@@ -37,7 +37,6 @@ function loadRentals() {
 
 			row.innerHTML = `
           <td>${index+1}</td>
-	  <td>${rental.rentalId}</td>
           <td>${rental.user?.name || "N/A"}</td>
           <td>${rental.rentalDate}</td>
           <td>${rental.dueDate}</td>
