@@ -1,0 +1,63 @@
+:root {
+	--dark-bg: #1a1a1a;
+	--light-text: #f0f0f0;
+	--primary: #004d61;
+	--secondary: #822659;
+}
+body {
+	background: var(--dark-bg);
+	color: var(--light-text);
+}
+.navbar,
+.footer {
+	background: var(--dark-bg) !important;
+	color: var(--light-text) !important;
+}
+.main-content {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--dark-bg);
+}
+.login-card {
+	background: #232323;
+	color: var(--light-text);
+	border-radius: 1rem;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+	padding: 2rem;
+	width: 100%;
+	max-width: 400px;
+}
+.form-label {
+	color: var(--light-text);
+}
+.form-control {
+	background: #232323;
+	color: var(--light-text);
+	border: 1px solid var(--primary);
+}
+.form-control:focus {
+	border-color: var(--secondary);
+	box-shadow: 0 0 0 0.2rem rgba(130, 38, 89, 0.25);
+}
+.btn-custom {
+	background: var(--secondary);
+	color: #fff;
+	border: none;
+}
+.btn-custom:hover {
+	background: var(--primary);
+	color: #fff;
+}
+a {
+	color: var(--secondary);
+}
+a:hover {
+	color: var(--primary);
+}
+#error {
+	color: #ff4d4f;
+	font-size: 0.9rem;
+	margin-top: 10px;
+}

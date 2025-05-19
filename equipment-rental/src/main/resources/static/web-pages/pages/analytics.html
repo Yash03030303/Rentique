@@ -1,0 +1,47 @@
+<div class="container-fluid py-4 px-3"> <!-- Changed from container to container-fluid and added px -->
+    <div class="mx-auto" style="max-width: 1200px;"> <!-- Centers the content and limits max width -->
+        <h2 class="mb-4">My Rental Analytics</h2>
+
+        <div class="row g-3"> <!-- Slightly reduced gap -->
+            <!-- 💰 Total Amount Spent -->
+            <div class="col-lg-6 col-md-12">
+                <div class="card p-4 h-100">
+                    <h5 class="card-title">💰 Total Amount Spent</h5>
+                    <div class="value" id="totalSpent">Loading...</div>
+                    <canvas id="monthlyBreakdownChart" height="200"></canvas>
+                </div>
+            </div>
+
+            <!-- 🛠️ Most Frequently Rented Equipment -->
+            <div class="col-lg-6 col-md-12">
+                <div class="card p-4 h-100">
+                    <h5 class="card-title">🛠️ Most Frequently Rented Equipment</h5>
+                    <ul id="topRented" class="list-group list-group-flush">
+                        <!-- Will be dynamically filled -->
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 🏆 Longest Rental Duration -->
+            <div class="col-lg-6 col-md-12">
+                <div class="card p-4 h-100">
+                    <h5 class="card-title">🏆 Longest Rental Duration</h5>
+                    <p class="mb-0">🧰 Equipment: <strong id="longestRentalEquipment">Loading...</strong></p>
+                    <p class="mb-0">📅 Duration: <strong id="longestRentalDuration">Loading...</strong></p>
+                </div>
+            </div>
+
+            <!-- 📉 Average Rental Cost per Transaction -->
+            <div class="col-lg-6 col-md-12">
+                <div class="card p-4 h-100">
+                    <h5 class="card-title">📉 Average Rental Cost per Transaction</h5>
+                    <div class="value" id="avgRental">Loading...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Chart.js -->
+ <script src="js/script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="js/analytics.js"></script>
