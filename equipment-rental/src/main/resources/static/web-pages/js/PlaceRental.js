@@ -29,16 +29,18 @@
 	function addToCart() {
 		const eqId = document.getElementById("equipmentSelect").value;
 		const duration = parseInt(document.getElementById("duration").value);
-		if (!eqId || duration < 1) return alert("Invalid input");
+		const quantity = parseInt(document.getElementById("quantity").value);
+		if (!eqId || duration < 1 || quantity < 1) return alert("Invalid input");
 
 		const eq = equipmentList.find((e) => e.equipmentId == eqId);
 		if (!eq) return alert("Equipment not found");
 
-		const existing = cart.find((item) => item.id == eqId);
+		const existing = cart.find((item) => item.equipmentId == eqId);
 		if (existing) {
 			existing.duration += duration;
+			existing.quantity += quantity;
 		} else {
-			cart.push({ ...eq, duration });
+			cart.push({ ...eq, duration, quantity });
 		}
 		renderCart();
 	}
@@ -49,20 +51,21 @@
 
 		if (cart.length === 0) {
 			tbody.innerHTML =
-				'<tr><td colspan="5" class="text-center">No items in cart</td></tr>';
+				'<tr><td colspan="6" class="text-center">No items in cart</td></tr>';
 			document.getElementById("totalAmount").textContent = "0";
 			return;
 		}
 
 		let total = 0;
 		cart.forEach((item, idx) => {
-			const subtotal = item.rentalPricePerDay * item.duration;
+			const subtotal = item.rentalPricePerDay * item.duration * item.quantity;
 			total += subtotal;
 
 			const tr = document.createElement("tr");
 			tr.innerHTML = `
       <td>${item.name}</td>
       <td>₹${item.rentalPricePerDay}</td>
+      <td>${item.quantity}</td>
       <td>${item.duration}</td>
       <td>₹${subtotal}</td>
       <td><button class="btn btn-sm btn-danger" onclick="removeFromCart(${idx})">
@@ -95,7 +98,7 @@
 		dueDate.setDate(rentalDate.getDate() + maxDuration);
 
 		const totalAmount = cart.reduce((sum, item) => {
-			return sum + item.rentalPricePerDay * item.duration;
+			return sum + item.rentalPricePerDay * item.duration * item.quantity;
 		}, 0);
 
 		const payload = {
@@ -107,7 +110,7 @@
 			},
 			rentalItems: cart.map((item) => ({
 				equipment: { equipmentId: item.equipmentId },
-				quantity: 1,
+				quantity: item.quantity,
 				daysRented: item.duration,
 			})),
 		};

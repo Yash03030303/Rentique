@@ -4,13 +4,17 @@
         <div class="card-body">
             <h5 style="color:black;">Select Equipment</h5>
             <div class="row g-3 align-items-end">
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <label for="equipmentSelect" class="form-label">Equipment</label>
                     <select id="equipmentSelect" class="form-select"></select>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label for="duration" class="form-label">Duration (days)</label>
                     <input type="number" class="form-control" id="duration" min="1" value="1">
+                </div>
+                <div class="col-md-2">
+                    <label for="quantity" class="form-label">Quantity</label>
+                    <input type="number" class="form-control" id="quantity" min="1" value="1">
                 </div>
                 <div class="col-md-2">
                     <button class="btn btn-primary w-100" onclick="addToCart()">
@@ -30,6 +34,7 @@
                     <tr>
                         <th>Equipment</th>
                         <th>Daily Rate</th>
+                        <th>Quantity</th>
                         <th>Days</th>
                         <th>Subtotal</th>
                         <th>Action</th>
@@ -37,7 +42,7 @@
                 </thead>
                 <tbody id="cartBody">
                     <tr>
-                        <td colspan="5" class="text-center">No items in cart</td>
+                        <td colspan="6" class="text-center">No items in cart</td>
                     </tr>
                 </tbody>
             </table>
