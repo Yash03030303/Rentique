@@ -7,6 +7,7 @@ import static org.mockito.Mockito.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -81,12 +82,14 @@ class RentalsServiceImplTest {
 
         sampleRental.setRentalDate(baseDate);
         sampleRental.setDueDate(baseDate.plusDays(2));
+        sampleRental.setRentalItems(new ArrayList<>()); 
 
         Rentals updateRequest = new Rentals();
         updateRequest.setRentalDate(baseDate);
         updateRequest.setDueDate(baseDate.plusDays(3)); 
         updateRequest.setTotalAmount(new BigDecimal("150.00"));
         updateRequest.setUser(sampleRental.getUser());
+        updateRequest.setRentalItems(new ArrayList<>()); 
 
         when(rentalsRepository.findById(1L)).thenReturn(Optional.of(sampleRental));
         when(rentalsRepository.save(any(Rentals.class))).thenReturn(updateRequest);
@@ -94,6 +97,7 @@ class RentalsServiceImplTest {
         Rentals updated = rentalsService.updateRentals(1L, updateRequest);
         assertThat(updated.getDueDate()).isEqualTo(baseDate.plusDays(3)); 
     }
+
 
     @Test
     void updateRentals_notFound_throwsException() {

@@ -59,24 +59,30 @@ public class RentalsServiceImpl implements RentalsService {
 		log.debug("Number of rentals found: {}", rentals.size());
 		return rentals;
 	}
-
+	
 	@Override
-
 	public Rentals updateRentals(Long rentalId, Rentals updatedRental) {
-		log.info("Attempting to update rental with ID: {}", rentalId);
-		Rentals existingRental = getRentalsById(rentalId);
+	    log.info("Attempting to update rental with ID: {}", rentalId);
+	    
+	    Rentals existingRental = getRentalsById(rentalId); 
 
-		log.debug("Updating rental fields for ID: {}", rentalId);
-		existingRental.setRentalDate(updatedRental.getRentalDate());
-		existingRental.setDueDate(updatedRental.getDueDate());
-		existingRental.setTotalAmount(updatedRental.getTotalAmount());
-		existingRental.setUser(updatedRental.getUser());
-		existingRental.setRentalItems(updatedRental.getRentalItems());
+	    log.debug("Updating rental fields for ID: {}", rentalId);
+	    existingRental.setRentalDate(updatedRental.getRentalDate());
+	    existingRental.setDueDate(updatedRental.getDueDate());
+	    existingRental.setTotalAmount(updatedRental.getTotalAmount());
+	    existingRental.setUser(updatedRental.getUser());
 
-		Rentals savedRental = rentalsRepository.save(existingRental);
-		log.info("Rental with ID {} updated successfully", rentalId);
-		return savedRental;
+	    existingRental.getRentalItems().clear(); 
+	    for (RentalItems item : updatedRental.getRentalItems()) {
+	        item.setRental(existingRental);  
+	        existingRental.getRentalItems().add(item); 
+	    }
+
+	    Rentals savedRental = rentalsRepository.save(existingRental);
+	    log.info("Rental with ID {} updated successfully", rentalId);
+	    return savedRental;
 	}
+
 
 	@Override
 	public void deleteRentals(Long rentalId) {
