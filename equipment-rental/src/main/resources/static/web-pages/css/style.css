@@ -1,0 +1,100 @@
+:root {
+  --dark-bg: #1A1A1A;
+  --light-text: #F0F0F0;
+  --primary: #004D61;
+  --secondary: #822659;
+  --success: #3E5641;
+}
+body {
+  background: var(--dark-bg);
+  color: var(--light-text);
+}
+.navbar, .footer {
+  background: var(--primary) !important;
+  color: var(--light-text) !important;
+}
+.navbar .navbar-brand, .footer {
+  color: var(--light-text) !important;
+}
+.sidebar {
+  min-height: 100vh;
+  background: var(--primary);
+  color: var(--light-text);
+}
+.sidebar .nav-link, .sidebar .nav-link.active {
+  color: var(--light-text);
+}
+.sidebar .nav-link.active, .sidebar .nav-link:hover {
+  background: var(--secondary);
+  color: #fff;
+}
+.main-content {
+  background: var(--dark-bg);
+  color: var(--light-text);
+  padding: 2rem;
+  min-height: 80vh;
+}
+.card-custom {
+  border: none;
+  border-radius: 1rem;
+  margin-bottom: 1.5rem;
+  background: #232323;
+  color: var(--light-text);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+.card-custom.bg-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: #fff;
+}
+.card-custom.bg-success {
+  background: linear-gradient(135deg, var(--success) 0%, var(--primary) 100%);
+  color: #fff;
+}
+.card-custom.bg-warning {
+  background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+  color: #fff;
+}
+.card-custom.bg-danger {
+  background: linear-gradient(135deg, #b00020 0%, var(--secondary) 100%);
+  color: #fff;
+}
+.chart-container {
+  background: #232323;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+.chart-container canvas {
+  flex: 1 1 auto;
+  width: 100% !important;
+  height: 220px !important;
+}
+.form-label { color: var(--light-text); }
+.form-control, .form-select {
+  background: #232323;
+  color: var(--light-text);
+  border: 1px solid var(--primary);
+}
+.form-control:focus, .form-select:focus {
+  background: #232323;
+  color: var(--light-text);
+  border-color: var(--secondary);
+  box-shadow: 0 0 0 0.2rem rgba(130,38,89,.25);
+}
+.btn-custom {
+  background: var(--secondary);
+  color: #fff;
+  border: none;
+}
+.btn-custom:hover {
+  background: var(--primary);
+  color: #fff;
+}
+a { color: var(--secondary); }
+a:hover { color: var(--primary); }
+.text-muted { color: #b0bfc6 !important; }

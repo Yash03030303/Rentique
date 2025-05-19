@@ -10,15 +10,14 @@ import com.capgemini.equipment_rental.entity.Returns;
 
 public interface ReturnsService {
 
-    Returns createReturn(Returns returns);
+	Returns createReturn(Returns returns);
 
-    Returns getReturnById(Long returnId);
+	Returns getReturnById(Long returnId);
 
-    List<Returns> getAllReturns();
+	List<Returns> getAllReturns();
 
-    Returns updateReturn(Long returnId, Returns updatedReturn);
+	void deleteReturn(Long returnId);
 
-    void deleteReturn(Long returnId);
-    
-    Page<Returns> getReturnsByConditionAndDateRange(String itemCondition, LocalDate startDate, LocalDate endDate, Pageable pageable);
+	Page<Returns> getReturnsByConditionAndDateRange(String itemCondition, LocalDate startDate, LocalDate endDate,
+			Pageable pageable);
 }

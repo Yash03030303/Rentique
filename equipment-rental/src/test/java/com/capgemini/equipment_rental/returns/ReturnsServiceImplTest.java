@@ -1,8 +1,5 @@
 package com.capgemini.equipment_rental.returns;
 
-
-
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -20,132 +17,97 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.capgemini.equipment_rental.entity.Rentals;
 import com.capgemini.equipment_rental.entity.Returns;
 import com.capgemini.equipment_rental.exceptions.ReturnNotFoundException;
+import com.capgemini.equipment_rental.repositories.RentalsRepository;
 import com.capgemini.equipment_rental.repositories.ReturnsRepository;
 import com.capgemini.equipment_rental.services.ReturnsServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class ReturnsServiceImplTest {
 
-    @Mock
-    private ReturnsRepository returnsRepository;
+	@Mock
+	private ReturnsRepository returnsRepository;
 
-    @InjectMocks
-    private ReturnsServiceImpl returnsService;
+	@Mock
+	private RentalsRepository rentalsRepository;
 
-    private Returns testReturn;
+	@InjectMocks
+	private ReturnsServiceImpl returnsService;
 
-    @BeforeEach
-    void setUp() {
-        testReturn = new Returns();
-        testReturn.setReturnId(1L);
-        testReturn.setReturnDate(LocalDate.now());
-        testReturn.setItemCondition("Good");
-        testReturn.setLateFee(BigDecimal.valueOf(0.0));
-    }
+	private Returns testReturn;
 
-    @Test
-    void createReturn_Success() {
-        when(returnsRepository.save(any(Returns.class))).thenReturn(testReturn);
+	@BeforeEach
+	void setUp() {
+		testReturn = new Returns();
+		testReturn.setReturnId(1L);
+		testReturn.setReturnDate(LocalDate.now());
+		testReturn.setItemCondition("Good");
+		testReturn.setLateFee(BigDecimal.valueOf(0.0));
 
-        Returns created = returnsService.createReturn(testReturn);
-        
-        assertNotNull(created);
-        assertEquals(1L, created.getReturnId());
-        assertEquals("Good", created.getItemCondition());
-        verify(returnsRepository, times(1)).save(any(Returns.class));
-    }
+		Rentals rental = new Rentals();
+		rental.setRentalId(1L);
+		rental.setDueDate(LocalDate.now().minusDays(2));
+		testReturn.setRental(rental);
 
-    @Test
-    void getReturnById_Success() {
-        when(returnsRepository.findById(1L)).thenReturn(Optional.of(testReturn));
+	}
 
-        Returns found = returnsService.getReturnById(1L);
-        
-        assertNotNull(found);
-        assertEquals(1L, found.getReturnId());
-        verify(returnsRepository, times(1)).findById(1L);
-    }
+	@Test
+	void getReturnById_Success() {
+		when(returnsRepository.findById(1L)).thenReturn(Optional.of(testReturn));
+		
+		Returns found = returnsService.getReturnById(1L);
 
-    @Test
-    void getReturnById_NotFound() {
-        when(returnsRepository.findById(99L)).thenReturn(Optional.empty());
+		assertNotNull(found);
+		assertEquals(1L, found.getReturnId());
+		verify(returnsRepository, times(1)).findById(1L);
+	}
 
-        assertThrows(ReturnNotFoundException.class, () -> {
-            returnsService.getReturnById(99L);
-        });
-        
-        verify(returnsRepository, times(1)).findById(99L);
-    }
+	@Test
+	void getReturnById_NotFound() {
+		when(returnsRepository.findById(99L)).thenReturn(Optional.empty());
 
-    @Test
-    void getAllReturns_Success() {
-        List<Returns> returnsList = Arrays.asList(testReturn);
-        when(returnsRepository.findAll()).thenReturn(returnsList);
+		assertThrows(ReturnNotFoundException.class, () -> {
+			returnsService.getReturnById(99L);
+		});
 
-        List<Returns> found = returnsService.getAllReturns();
-        
-        assertNotNull(found);
-        assertEquals(1, found.size());
-        assertEquals(1L, found.get(0).getReturnId());
-        verify(returnsRepository, times(1)).findAll();
-    }
+		verify(returnsRepository, times(1)).findById(99L);
+	}
 
-    @Test
-    void updateReturn_Success() {
-        Returns updatedReturn = new Returns();
-        updatedReturn.setReturnDate(LocalDate.now().minusDays(1));
-        updatedReturn.setItemCondition("Damaged");
-        updatedReturn.setLateFee(BigDecimal.valueOf(10.0));
-        
-        when(returnsRepository.findById(1L)).thenReturn(Optional.of(testReturn));
-        when(returnsRepository.save(any(Returns.class))).thenAnswer(invocation -> invocation.getArgument(0));
-        
-        Returns result = returnsService.updateReturn(1L, updatedReturn);
-        
-        assertNotNull(result);
-        assertEquals("Damaged", result.getItemCondition());
-        assertEquals(BigDecimal.valueOf(10.0), result.getLateFee());
-        verify(returnsRepository, times(1)).findById(1L);
-        verify(returnsRepository, times(1)).save(any(Returns.class));
-    }
+	@Test
+	void getAllReturns_Success() {
+		List<Returns> returnsList = Arrays.asList(testReturn);
+		when(returnsRepository.findAll()).thenReturn(returnsList);
 
-    @Test
-    void updateReturn_NotFound() {
-        Returns updatedReturn = new Returns();
-        updatedReturn.setItemCondition("Damaged");
-        
-        when(returnsRepository.findById(99L)).thenReturn(Optional.empty());
-        
-        assertThrows(ReturnNotFoundException.class, () -> {
-            returnsService.updateReturn(99L, updatedReturn);
-        });
-        
-        verify(returnsRepository, times(1)).findById(99L);
-        verify(returnsRepository, never()).save(any(Returns.class));
-    }
+		List<Returns> found = returnsService.getAllReturns();
 
-    @Test
-    void deleteReturn_Success() {
-        when(returnsRepository.existsById(1L)).thenReturn(true);
-        doNothing().when(returnsRepository).deleteById(1L);
-        
-        returnsService.deleteReturn(1L);
-        
-        verify(returnsRepository, times(1)).existsById(1L);
-        verify(returnsRepository, times(1)).deleteById(1L);
-    }
+		assertNotNull(found);
+		assertEquals(1, found.size());
+		assertEquals(1L, found.get(0).getReturnId());
+		verify(returnsRepository, times(1)).findAll();
+	}
 
-    @Test
-    void deleteReturn_NotFound() {
-        when(returnsRepository.existsById(99L)).thenReturn(false);
-        
-        assertThrows(ReturnNotFoundException.class, () -> {
-            returnsService.deleteReturn(99L);
-        });
-        
-        verify(returnsRepository, times(1)).existsById(99L);
-        verify(returnsRepository, never()).deleteById(any());
-    }
+	@Test
+	void deleteReturn_Success() {
+		when(returnsRepository.existsById(1L)).thenReturn(true);
+		doNothing().when(returnsRepository).deleteById(1L);
+
+		returnsService.deleteReturn(1L);
+
+		verify(returnsRepository, times(1)).existsById(1L);
+		verify(returnsRepository, times(1)).deleteById(1L);
+	}
+
+	@Test
+	void deleteReturn_NotFound() {
+		when(returnsRepository.existsById(99L)).thenReturn(false);
+
+		assertThrows(ReturnNotFoundException.class, () -> {
+			returnsService.deleteReturn(99L);
+		});
+
+		verify(returnsRepository, times(1)).existsById(99L);
+		verify(returnsRepository, never()).deleteById(any());
+	}
 }

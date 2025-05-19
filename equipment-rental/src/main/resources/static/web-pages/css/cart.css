@@ -1,0 +1,83 @@
+/* Cart Page Styles */
+.cart-table {
+    margin-bottom: 0;
+}
+
+.cart-item-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 1rem;
+}
+
+.duration-selector {
+    display: flex;
+    align-items: center;
+}
+
+.duration-selector .btn {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.table th {
+    border-top: none;
+    font-weight: 600;
+    color: #495057;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+.input-group {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.input-group .form-control {
+    border-right: none;
+}
+
+.input-group .btn {
+    border-left: none;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .cart-item-image {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .table {
+        font-size: 0.875rem;
+    }
+    
+    .duration-selector .btn {
+        width: 25px;
+        height: 25px;
+    }
+}

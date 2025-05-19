@@ -1,0 +1,55 @@
+
+
+    <div class="container" id="main-content">
+        <h2>Equipment Management</h2>
+        
+        <!-- Equipment Form -->
+        <form id="equipmentForm" class="mb-4">
+            <input type="hidden" id="equipmentId">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="name" class="form-label">Equipment Name</label>
+                    <input type="text" class="form-control" id="name" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="rentalPricePerDay" class="form-label">Rental Price Per Day</label>
+                    <input type="number" class="form-control" id="rentalPricePerDay" step="0.01" min="0" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="stock" class="form-label">Stock</label>
+                    <input type="number" class="form-control" id="stock" min="0" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="categoryId" class="form-label">Category</label>
+                    <select class="form-select" id="categoryId" required>
+                        <!-- Categories will be loaded dynamically -->
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" class="btn btn-secondary" onclick="resetForm()">Clear</button>
+        </form>
+
+        <!-- Equipment Table -->
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Rental Price/Day</th>
+                        <th>Stock</th>
+                        
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="equipmentTableBody">
+                    <!-- Equipment data will be loaded dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    
+    <script src="js/equipment-management.js"></script>
+     

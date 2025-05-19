@@ -1,0 +1,32 @@
+<div class="container mt-4" id="main-content">
+    <h3 class="mb-4">Active Rentals</h3>
+    
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <input type="number" id="minPrice" class="form-control" placeholder="Min Price">
+        </div>
+        <div class="col-md-3">
+            <input type="number" id="maxPrice" class="form-control" placeholder="Max Price">
+        </div>
+        
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered  table-striped  align-middle table-hover">
+
+            <thead class="table-dark">
+                <tr>
+                    <th>Rental ID</th>
+                    <th>User ID</th>
+                    <th>Rental Date</th>
+                    <th>Due Date</th>
+                    <th>Total Amount</th>
+                </tr>
+            </thead>
+            <tbody id="rentalTableBody">
+                <!-- Data will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="js/view-rentals.js"></script>

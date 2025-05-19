@@ -1,0 +1,58 @@
+<div class="container mt-4">
+    <h2 class="mb-4">Place Equipment Order</h2>
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 style="color:black;">Select Equipment</h5>
+            <div class="row g-3 align-items-end">
+                <div class="col-md-5">
+                    <label for="equipmentSelect" class="form-label">Equipment</label>
+                    <select id="equipmentSelect" class="form-select"></select>
+                </div>
+                <div class="col-md-3">
+                    <label for="duration" class="form-label">Duration (days)</label>
+                    <input type="number" class="form-control" id="duration" min="1" value="1">
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary w-100" onclick="addToCart()">
+                        <i class="fas fa-plus-circle me-1"></i>Add to Cart
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 style="color:black;">Your Cart</h5>
+            <table class="table table-bordered" id="cartTable">
+                <thead>
+                    <tr>
+                        <th>Equipment</th>
+                        <th>Daily Rate</th>
+                        <th>Days</th>
+                        <th>Subtotal</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="cartBody">
+                    <tr>
+                        <td colspan="5" class="text-center">No items in cart</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-end">
+                <strong>Total: ₹<span id="totalAmount">0</span></strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- Place Order -->
+    <div class="text-end">
+        <button class="btn btn-success" onclick="placeOrder()">
+            <i class="fas fa-check-circle me-1"></i>Place Order
+        </button>
+    </div>
+</div>
+<script src="js/script.js"></script>
+<script src="js/PlaceRental.js"></script>
