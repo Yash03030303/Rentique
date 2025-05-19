@@ -1,8 +1,11 @@
 package com.capgemini.equipment_rental.services;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.capgemini.equipment_rental.entity.Returns;
@@ -16,15 +19,38 @@ import lombok.extern.slf4j.Slf4j;
 public class ReturnsServiceImpl implements ReturnsService {
 
     private final ReturnsRepository returnsRepository;
+    private final RentalsRepository rentalsRepository;
 
     @Autowired
-    public ReturnsServiceImpl(ReturnsRepository returnsRepository) {
+    public ReturnsServiceImpl(ReturnsRepository returnsRepository, RentalsRepository rentalsRepository) {
         this.returnsRepository = returnsRepository;
+        this.rentalsRepository = rentalsRepository;
     }
 
     @Override
     public Returns createReturn(Returns returns) {
-        log.info("Attempting to create a return record for Rental ID: {}", returns.getRental() != null ? returns.getRental().getRentalId() : "null");
+        Long rentalId = returns.getRental() != null ? returns.getRental().getRentalId() : null;
+        log.info("Attempting to create a return record for Rental ID: {}", rentalId);
+
+        if (rentalId == null) {
+            throw new IllegalArgumentException("Rental ID must not be null");
+        }
+
+        Rentals rental = rentalsRepository.findById(rentalId)
+                .orElseThrow(() -> new RuntimeException("Rental with ID " + rentalId + " not found"));
+
+        LocalDate dueDate = rental.getDueDate();
+        LocalDate returnDate = returns.getReturnDate();
+        BigDecimal lateFee = BigDecimal.ZERO;
+
+        if (returnDate != null && returnDate.isAfter(dueDate)) {
+            long daysLate = ChronoUnit.DAYS.between(dueDate, returnDate);
+            lateFee = BigDecimal.valueOf(daysLate * 50); // ₹50 per late day
+        }
+
+        returns.setLateFee(lateFee);
+        returns.setRental(rental); // Ensure full Rental object is set
+
         Returns savedReturn = returnsRepository.save(returns);
         log.info("Return record created with ID: {}", savedReturn.getReturnId());
         return savedReturn;
@@ -74,4 +100,10 @@ public class ReturnsServiceImpl implements ReturnsService {
         returnsRepository.deleteById(returnId);
         log.info("Return with ID {} deleted successfully", returnId);
     }
+    
+    @Override
+    public Page<Returns> getReturnsByConditionAndDateRange(String itemCondition, LocalDate startDate, LocalDate endDate, Pageable pageable) {
+        return returnsRepository.findByItemConditionContainingIgnoreCaseAndReturnDateBetween(itemCondition, startDate, endDate, pageable);
+    }
+
 }

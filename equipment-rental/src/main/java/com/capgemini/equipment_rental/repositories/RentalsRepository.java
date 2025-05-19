@@ -1,17 +1,18 @@
 package com.capgemini.equipment_rental.repositories;
 
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.*;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+
 import com.capgemini.equipment_rental.entity.Rentals;
 
 public interface RentalsRepository extends JpaRepository<Rentals, Long> {
+
 	@Query("SELECT COUNT(r) FROM Rentals r WHERE r.user.userId = :userId")
     int countActiveRentals(@Param("userId") Long userId);
 	
@@ -42,6 +43,14 @@ public interface RentalsRepository extends JpaRepository<Rentals, Long> {
 	     List<Rentals> findByUser_UserId(Long userId);
 
 
-}
+	@Query("SELECT COUNT(r) FROM Rentals r " + "WHERE NOT EXISTS (SELECT ret FROM Returns ret WHERE ret.rental = r)")
+	Long countActiveRentals();
 
+	List<Rentals> findByUserUserId(Long userId); // Add this method
+
+
+	@Query("SELECT FUNCTION('DATE_FORMAT', r.rentalDate, '%Y-%m'), COUNT(r) "
+			+ "FROM Rentals r GROUP BY FUNCTION('DATE_FORMAT', r.rentalDate, '%Y-%m')")
+	List<Object[]> getMonthlyRentals();
+}
 
