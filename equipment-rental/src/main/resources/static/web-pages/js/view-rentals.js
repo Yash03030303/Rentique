@@ -32,12 +32,13 @@ function loadRentals() {
 			tbody.innerHTML = `<tr><td colspan="5" class="text-center">No active rentals found.</td></tr>`;
 			return;
 		}
-		activeRentals.forEach((rental) => {
+		activeRentals.forEach((rental, index) => {
 			const row = document.createElement("tr");
 
 			row.innerHTML = `
-          <td>${rental.rentalId}</td>
-          <td>${rental.user?.userId || "N/A"}</td>
+          <td>${index+1}</td>
+	  <td>${rental.rentalId}</td>
+          <td>${rental.user?.name || "N/A"}</td>
           <td>${rental.rentalDate}</td>
           <td>${rental.dueDate}</td>
           <td>₹ ${rental.totalAmount}</td>
